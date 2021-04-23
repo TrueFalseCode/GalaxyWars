@@ -5,12 +5,12 @@
 #include "Enemy.h"
 
 Enemy::Enemy(const float& health,
-			 Render::Texture* texture,
+			 const string& filename,
 			 const Point& globalCenter, 
 			 const float& radius, 
 			 const float& startRotate,
 			 const float& RPS, 
-			 const float& step) : Actor(globalCenter, health, texture),
+			 const float& step) : Actor(globalCenter, health, filename),
 								  CircleActor(globalCenter, radius, startRotate),
 								  _RPS(RPS), 
 								  _step(step),
@@ -25,12 +25,6 @@ Enemy::Enemy(const float& health,
 
 	if (_timeByStep < 0)
 		_timeByStep *= -1;
-}
-
-void Enemy::Draw(Render::RenderDeviceInterface & device)
-{
-	Actor::Draw(device);
-	DrawWeapon(device);
 }
 
 void Enemy::Update(const float& dt)

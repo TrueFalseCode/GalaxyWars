@@ -16,7 +16,6 @@ class AttackActor
 {
 public:
 
-	void DrawWeapon(Render::RenderDeviceInterface& device);
 	void UpdateWeapon(const float& dt);
 
 	shared_ptr<Weapon> GetWeapon();

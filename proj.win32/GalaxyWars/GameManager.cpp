@@ -4,33 +4,8 @@
 
 GameManager::GameManager() : _bGameOver(true)
 {
-	_text = make_shared<Actor>(Point(), 1.0f, Core::resourceManager.Get<Render::Texture>("Start"));
-}
-
-void GameManager::Draw(Render::RenderDeviceInterface& device)
-{
-	if (IsGameOver())
-	{
-		_text->Draw(device);
-
-		return;
-	}
-
-	for (auto iter : _characterHealth)
-	{
-		iter->Draw(device);
-	}
-
-	if (_character)
-	{
-		_character->Draw(device);
-	}
-
-	for (auto iter : _enemies)
-	{
-		if(iter)
-			iter->Draw(device);
-	}
+	// TMP CODE
+	//_text = make_shared<Actor>(Point(), 1.0f, Core::resourceManager.Get<Render::Texture>("Start"));
 }
 
 void GameManager::Update(const float & dt)
@@ -44,8 +19,9 @@ void GameManager::Update(const float & dt)
 		{
 			EndGame();
 
-			_text->SetTexture(Core::resourceManager.Get<Render::Texture>("YouWin"));
-			_text->SetActorPosition(_character->GetGlobalCenter());
+			// TMP CODE
+			/*_text->SetTexture(Core::resourceManager.Get<Render::Texture>("YouWin"));
+			_text->SetActorPosition(_character->GetGlobalCenter());*/
 
 			return;
 		}
@@ -54,8 +30,9 @@ void GameManager::Update(const float & dt)
 		{
 			EndGame();
 
-			_text->SetTexture(Core::resourceManager.Get<Render::Texture>("YouLose"));
-			_text->SetActorPosition(_character->GetGlobalCenter());
+			// TMP CODE
+			/*_text->SetTexture(Core::resourceManager.Get<Render::Texture>("YouLose"));
+			_text->SetActorPosition(_character->GetGlobalCenter());*/
 
 			return;
 		}
@@ -137,8 +114,9 @@ void GameManager::EndGame()
 
 	_bGameOver = true;
 
-	if(_text)
-		_text->SetTexture(Core::resourceManager.Get<Render::Texture>("Start"));
+	// TMP CODE
+	/*if(_text)
+		_text->SetTexture(Core::resourceManager.Get<Render::Texture>("Start"));*/
 }
 
 GameManager::~GameManager()

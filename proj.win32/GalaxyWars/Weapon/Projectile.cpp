@@ -5,18 +5,20 @@ Projectile::Projectile(const Point & start,
 					   const Point & finish,
 					   const float& health,
 					   const float & damage,
-					   Render::Texture* texture,
-					   const float & speedCoefficient) : Actor(start, health, texture),
+					   const string& filename,
+					   const float & speedCoefficient) : Actor(start, health, filename),
 													      _speedCoefficient(speedCoefficient)
 {
-	_spline.addKey(0.0f, start);
+	// TMP CODE
+	/*_spline.addKey(0.0f, start);
 	_spline.addKey(1.0f, finish);
-	_spline.CalculateGradient();
+	_spline.CalculateGradient();*/
 }
 
 void Projectile::Update(const float & dt)
 {
-	_timer += dt * _speedCoefficient;
+	// TMP CODE
+	/*_timer += dt * _speedCoefficient;
 
 	Point nextPosition;// = _spline.getGlobalFrame(std::clamp(0.0f, 1.0f, _timer / 6.0f));
 
@@ -30,5 +32,5 @@ void Projectile::Update(const float & dt)
 	else
 	{
 		SetActorPosition(nextPosition);
-	}
+	}*/
 }

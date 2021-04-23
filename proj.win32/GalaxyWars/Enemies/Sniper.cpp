@@ -1,8 +1,8 @@
 ﻿
 #include "Sniper.h"
 
-Sniper::Sniper(const float & health, Render::Texture * texture, const Point & globalCenter, const float & radius, const int & startRotate, const float & RPS, const int & step) : 
-	Enemy(health, texture, globalCenter, radius, startRotate, RPS, step)
+Sniper::Sniper(const float & health, const string& filename, const Point & globalCenter, const float & radius, const int & startRotate, const float & RPS, const int & step) : 
+	Enemy(health, filename, globalCenter, radius, startRotate, RPS, step)
 {
 }
 

@@ -11,12 +11,13 @@ class Projectile : public Actor
 {
 public:
 
-	Projectile(const Point& start, const Point& finish, const float& health, const float & damage, Render::Texture* texture, const float& speedCoefficient);
+	Projectile(const Point& start, const Point& finish, const float& health, const float & damage, const string& filename, const float& speedCoefficient);
 
 	virtual	void Update(const float& dt) override;
 
 protected:
 
 	float _speedCoefficient;
-	TimedSpline<Point> _spline;
+	// TMP CODE
+	//TimedSpline<Point> _spline;
 };

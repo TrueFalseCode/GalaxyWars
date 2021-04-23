@@ -7,9 +7,6 @@ using std::make_shared;
 #include <random> 
 #include <ctime>
 
-#include "cocos2d.h"
-using cocos2d::Point;
-
 #include "..//Actor/Actor.h"
 #include "..//Actor/CircleActor.h"
 #include "..//Actor/AttackActor.h"
@@ -22,9 +19,8 @@ class Enemy : public Actor, public CircleActor, public AttackActor
 {
 public:
 
-	Enemy(const float& health, Render::Texture* texture, const Point& globalCenter, const float& radius, const float& startRotate, const float& RPS, const float& step);
+	Enemy(const float& health, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate, const float& RPS, const float& step);
 
-	virtual void Draw(Render::RenderDeviceInterface& device) override;
 	virtual	void Update(const float& dt) override;
 
 	shared_ptr<const CircleActor> GetCharacter() const;

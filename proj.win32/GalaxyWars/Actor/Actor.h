@@ -3,7 +3,11 @@
 #include <memory>
 using std::shared_ptr;
 
+#include <string>
+using std::string;
+
 #include "cocos2d.h"
+using cocos2d::Sprite;
 using cocos2d::Point;
 
 // <<<<< Sphere =====
@@ -51,14 +55,13 @@ class Actor
 {
 public:
 
-	Actor(const Point& positionByCenter, const float& health, Render::Texture* texture);
+	Actor(const Point& positionByCenter, const float& health, const string& filename);
 
-	virtual void Draw(Render::RenderDeviceInterface& device);
 	virtual void Update(const float& dt);
 
 	Point GetActorPosition() const;
 	Point GetTexturePosition() const;
-	Render::Texture* GetTexture() const;
+	Sprite* GetTexture() const;
 
 	// При задании позиции для объекта Actor, 
 	// указанная точка будет находиться в центре объекта,
@@ -69,7 +72,7 @@ public:
 	// Функция позволяет смещать текстуру относительно Actor'а
 	void SetTexturePosition(const Point & new_position);
 
-	void SetTexture(Render::Texture* new_texture);
+	void SetTexture(Sprite* new_sprite);
 
 	bool CheckCollision(shared_ptr<const Actor> another_actor);
 
@@ -83,8 +86,6 @@ protected:
 	// Функция позволяет смещать "тело"(объект класса Sphere) Actor'а
 	void SetBodyPosition(const Point & new_position);
 
-	void DrawTexture();
-
 	float _timer;
 
 private:
@@ -96,7 +97,7 @@ private:
 
 	float _currentHealth;
 	Sphere _body;
-	Point _texturePosition;
-	Render::Texture* _texture;
+	Point _spritePosition;
+	Sprite* _sprite;
 };
 // ===== Actor >>>>>

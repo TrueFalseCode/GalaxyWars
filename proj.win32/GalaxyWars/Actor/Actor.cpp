@@ -56,18 +56,20 @@ float Sphere::GetDistance(const Point & A, const Point & B)
 
 // <<<<< Actor =====
 
-Actor::Actor(const Point& centerPosition, const float& health, Render::Texture * texture) : _maxHealth(health), _currentHealth(health), _texture(texture), _timer(0.0f)
+Actor::Actor(const Point& centerPosition, const float& health, const string& filename) : _maxHealth(health), _currentHealth(health), _timer(0.0f)
 {
+	_sprite = Sprite::create(filename);
+
 	SetActorPosition(centerPosition);
 
 	// Если задана текстура, то диаметр сферы, 
 	// которая определяет границы Actor'а
 	// будет равен размеру большей стороны текстуры
-	if (_texture)
+	if (_sprite)
 	{
 		float radius_tmp;
-		int textureW = _texture->Width();
-		int textureH = _texture->Height();
+		int textureW = _sprite->getContentSize().width;
+		int textureH = _sprite->getContentSize().height;
 
 		if (textureW >= textureH)
 		{
@@ -82,14 +84,6 @@ Actor::Actor(const Point& centerPosition, const float& health, Render::Texture *
 	}
 }
 
-void Actor::Draw(Render::RenderDeviceInterface& device)
-{
-	device.PushMatrix();
-	device.MatrixTranslate(GetTexturePosition());
-	DrawTexture();
-	device.PopMatrix();
-}
-
 void Actor::Update(const float& dt) {}
 
 Point Actor::GetActorPosition() const
@@ -99,22 +93,22 @@ Point Actor::GetActorPosition() const
 
 Point Actor::GetTexturePosition() const
 {
-	return _texturePosition;
+	return _spritePosition;
 }
 
-Render::Texture * Actor::GetTexture() const
+Sprite * Actor::GetTexture() const
 {
-	return _texture;
+	return _sprite;
 }
 
 void Actor::SetActorPosition(const Point & new_position)
 {
 	SetBodyPosition(new_position);
 
-	if (_texture)
+	if (_sprite)
 	{
-		float X = new_position.x - (_texture->Width() / 2);
-		float Y = new_position.y - (_texture->Height() / 2);
+		float X = new_position.x - (_sprite->getContentSize().width / 2);
+		float Y = new_position.y - (_sprite->getContentSize().height / 2);
 
 		SetTexturePosition(Point(X, Y));
 	}
@@ -126,7 +120,7 @@ void Actor::SetActorPosition(const Point & new_position)
 
 void Actor::SetTexturePosition(const Point & new_position)
 {
-	_texturePosition = new_position;
+	_spritePosition = new_position;
 }
 
 void Actor::SetBodyPosition(const Point & new_position)
@@ -134,9 +128,9 @@ void Actor::SetBodyPosition(const Point & new_position)
 	_body.SetPosition(new_position);
 }
 
-void Actor::SetTexture(Render::Texture * new_texture)
+void Actor::SetTexture(Sprite * new_sprite)
 {
-		_texture = new_texture;
+		_sprite = new_sprite;
 }
 
 bool Actor::CheckCollision(shared_ptr<const Actor> another_actor)
@@ -171,14 +165,6 @@ void Actor::DoDamage(const float & damage)
 bool Actor::IsDied()
 {
 	return _currentHealth <= 0.0f;
-}
-
-void Actor::DrawTexture()
-{
-	if (_texture)
-	{
-		_texture->Draw();
-	}
 }
 
 // ===== Actor >>>>>

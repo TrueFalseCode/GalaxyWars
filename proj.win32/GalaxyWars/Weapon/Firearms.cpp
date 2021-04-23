@@ -1,18 +1,10 @@
 ﻿
 #include "Firearms.h"
 
-Firearms::Firearms(const float & damage, const float& coolDown, const float& projectileSpeed, Render::Texture* texture) : Weapon(damage, coolDown),
-																														  _projectileSpeed(projectileSpeed), 
-																														  _texture(texture)
+Firearms::Firearms(const float & damage, const float& coolDown, const float& projectileSpeed, const string& filename) : Weapon(damage, coolDown),
+																												_projectileSpeed(projectileSpeed), 
+																												_spriteName(filename)
 {
-}
-
-void Firearms::Draw(Render::RenderDeviceInterface & device)
-{
-	for (auto iter : _projectiles)
-	{
-		iter->Draw(device);
-	}
 }
 
 void Firearms::Update(const float & dt)
@@ -46,7 +38,7 @@ void Firearms::DoAttack(const Actor* attackingActor, const Point& target)
 	{
 		if (attackingActor)
 		{
-			_projectiles.push_back(make_shared<Projectile>(attackingActor->GetActorPosition(), target, 1.0f, GetDamage(), _texture, _projectileSpeed));
+			_projectiles.push_back(make_shared<Projectile>(attackingActor->GetActorPosition(), target, 1.0f, GetDamage(), _spriteName, _projectileSpeed));
 			StartCoolDown();
 		}
 	}

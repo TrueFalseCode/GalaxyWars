@@ -3,19 +3,13 @@
 #include "Character.h"
 
 Character::Character(const float& health,
-			   Render::Texture* texture,
+			   const string& filename,
 			   const Point& globalCenter,
 			   const float& radius,
-			   const float& startRotate) : Actor(globalCenter, health, texture),
+			   const float& startRotate) : Actor(globalCenter, health, filename),
 										   CircleActor(globalCenter, radius, startRotate)
 {
 	SetActorPosition(GetNextPosition());
-}
-
-void Character::Draw(Render::RenderDeviceInterface & device)
-{
-	Actor::Draw(device);
-	DrawWeapon(device);
 }
 
 void Character::Update(const float & dt)

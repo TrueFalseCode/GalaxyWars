@@ -15,9 +15,8 @@ class Character : public Actor, public CircleActor, public AttackActor
 {
 public:
 
-	Character(const float& health, Render::Texture* texture, const Point& globalCenter, const float& radius, const float& startRotate);
+	Character(const float& health, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate);
 
-	virtual void Draw(Render::RenderDeviceInterface& device) override;
 	virtual	void Update(const float& dt) override;
 
 	// Данная функция наносит урон заданным Actor'ам(в данном случае - Enemy) в зависимости от логики конкретного оружия,

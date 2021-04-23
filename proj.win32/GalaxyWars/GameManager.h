@@ -26,7 +26,7 @@ public:
 
 	// Функция предназначена для создания главного персонажа игры по заданным параметрам
 	template<typename TCharacter>
-	void CreateCharacter(const float& health, shared_ptr<Weapon> weapon, Render::Texture* texture, const Point& globalCenter, const float& radius, const float& startRotate);
+	void CreateCharacter(const float& health, shared_ptr<Weapon> weapon, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate);
 
 	// Функция предназначена для создания набора врагов по заданным параметрам
 	// Примечание: 
@@ -34,9 +34,8 @@ public:
 	// * и (amount - weapons.Size()) врагов без оружия.
 	// * Если же Если amount < weapons.Size(), то будет создано weapons.Size() врагов с оружием
 	template<typename TEnemy>
-	void CreateEnemies(const unsigned int& amount, const float& health, const vector<shared_ptr<Weapon>>& weapons, const float& startRotate, const float& offset, Render::Texture* texture, const Point& globalCenter, const float& radius, const float& RPS, const float& step, const float& visibleZone, const float& stormtrooperEffect);
+	void CreateEnemies(const unsigned int& amount, const float& health, const vector<shared_ptr<Weapon>>& weapons, const float& startRotate, const float& offset, const string& filename, const Point& globalCenter, const float& radius, const float& RPS, const float& step, const float& visibleZone, const float& stormtrooperEffect);
 
-	void Draw(Render::RenderDeviceInterface& device);
 	void Update(const float& dt);
 
 	// Функция устанавливает, в каком месте будет центр 
@@ -75,7 +74,7 @@ private:
 };
 
 template<typename TCharacter>
-void GameManager::CreateCharacter(const float& health, shared_ptr<Weapon> weapon, Render::Texture* texture, const Point& globalCenter, const float& radius, const float& startRotate)
+void GameManager::CreateCharacter(const float& health, shared_ptr<Weapon> weapon, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate)
 {
 	_character = make_shared<TCharacter>(health, texture, globalCenter, radius, startRotate);
 
@@ -96,7 +95,7 @@ void GameManager::CreateCharacter(const float& health, shared_ptr<Weapon> weapon
 }
 
 template<typename TEnemy>
-void GameManager::CreateEnemies(const unsigned int& amount, const float& health, const vector<shared_ptr<Weapon>>& weapons, const float& startRotate, const float& offset, Render::Texture* texture, const Point& globalCenter, const float& radius, const float& RPS, const float& step, const float& visibleZone, const float& stormtrooperEffect)
+void GameManager::CreateEnemies(const unsigned int& amount, const float& health, const vector<shared_ptr<Weapon>>& weapons, const float& startRotate, const float& offset, const string& filename, const Point& globalCenter, const float& radius, const float& RPS, const float& step, const float& visibleZone, const float& stormtrooperEffect)
 {
 	unsigned int remainingAmount = amount;
 	float offsetSum = startRotate;

@@ -19,7 +19,6 @@ public:
 	
 	Weapon(const float & damage, const float& coolDown);
 
-	virtual void Draw(Render::RenderDeviceInterface& device) = 0;
 	virtual void Update(const float& dt);
 
 	virtual void DoAttack(const Actor* attackingActor, const Point& target) = 0;

@@ -3,6 +3,9 @@
 #include <vector>
 using std::vector;
 
+#include <string>
+using std::string;
+
 #include "Weapon.h"
 #include "Projectile.h"
 
@@ -15,9 +18,8 @@ class Firearms : public Weapon
 {
 public:
 
-	Firearms(const float& damage, const float& coolDown, const float& projectileSpeed, Render::Texture* texture);
+	Firearms(const float& damage, const float& coolDown, const float& projectileSpeed, const string& filename);
 
-	virtual void Draw(Render::RenderDeviceInterface& device) override;
 	virtual void Update(const float& dt) override;
 
 	virtual void DoAttack(const Actor* attackingActor, const Point& target) override;
@@ -30,7 +32,7 @@ protected:
 
 	float _projectileSpeed;
 
-	Render::Texture* _texture;
+	const string& _spriteName;
 
 	// Список летящих снарядов, выпущенных оружием
 	vector<shared_ptr<Projectile>> _projectiles;

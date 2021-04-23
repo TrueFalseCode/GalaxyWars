@@ -1,12 +1,6 @@
 ﻿
 #include "AttackActor.h"
 
-void AttackActor::DrawWeapon(Render::RenderDeviceInterface & device)
-{
-	if (_weapon)
-		_weapon->Draw(device);
-}
-
 void AttackActor::UpdateWeapon(const float & dt)
 {
 	if (_weapon)
