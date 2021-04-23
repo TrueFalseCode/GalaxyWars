@@ -10,34 +10,34 @@
     <ClCompile Include="D:\GitRepo\Projects\GalaxyWars\Classes\HelloWorldScene.cpp">
       <Filter>Source Files\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\proj.win32\GalaxyWars\Actor\Actor.cpp">
+    <ClCompile Include="..\Classes\GalaxyWars\Actor\Actor.cpp">
       <Filter>Source Files\Sources\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="..\proj.win32\GalaxyWars\Actor\AttackActor.cpp">
+    <ClCompile Include="..\Classes\GalaxyWars\Actor\AttackActor.cpp">
       <Filter>Source Files\Sources\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="..\proj.win32\GalaxyWars\Actor\CircleActor.cpp">
+    <ClCompile Include="..\Classes\GalaxyWars\Actor\CircleActor.cpp">
       <Filter>Source Files\Sources\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="..\proj.win32\GalaxyWars\Enemies\Enemy.cpp">
+    <ClCompile Include="..\Classes\GalaxyWars\Enemies\Enemy.cpp">
       <Filter>Source Files\Sources\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="..\proj.win32\GalaxyWars\Enemies\Sniper.cpp">
+    <ClCompile Include="..\Classes\GalaxyWars\Enemies\Sniper.cpp">
       <Filter>Source Files\Sources\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="..\proj.win32\GalaxyWars\Weapon\Firearms.cpp">
+    <ClCompile Include="..\Classes\GalaxyWars\Weapon\Firearms.cpp">
       <Filter>Source Files\Sources\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="..\proj.win32\GalaxyWars\Weapon\Projectile.cpp">
+    <ClCompile Include="..\Classes\GalaxyWars\Weapon\Projectile.cpp">
       <Filter>Source Files\Sources\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="..\proj.win32\GalaxyWars\Weapon\Weapon.cpp">
+    <ClCompile Include="..\Classes\GalaxyWars\Weapon\Weapon.cpp">
       <Filter>Source Files\Sources\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="..\proj.win32\GalaxyWars\Character.cpp">
+    <ClCompile Include="..\Classes\GalaxyWars\Character.cpp">
       <Filter>Source Files\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\proj.win32\GalaxyWars\GameManager.cpp">
+    <ClCompile Include="..\Classes\GalaxyWars\GameManager.cpp">
       <Filter>Source Files\Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,34 +72,34 @@
     <ClInclude Include="D:\GitRepo\Projects\GalaxyWars\Resources\res\.gitkeep">
       <Filter>Resources\res</Filter>
     </ClInclude>
-    <ClInclude Include="..\proj.win32\GalaxyWars\Actor\Actor.h">
+    <ClInclude Include="..\Classes\GalaxyWars\Actor\Actor.h">
       <Filter>Source Files\Headers\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="..\proj.win32\GalaxyWars\Actor\AttackActor.h">
+    <ClInclude Include="..\Classes\GalaxyWars\Actor\AttackActor.h">
       <Filter>Source Files\Headers\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="..\proj.win32\GalaxyWars\Actor\CircleActor.h">
+    <ClInclude Include="..\Classes\GalaxyWars\Actor\CircleActor.h">
       <Filter>Source Files\Headers\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="..\proj.win32\GalaxyWars\Enemies\Enemy.h">
+    <ClInclude Include="..\Classes\GalaxyWars\Enemies\Enemy.h">
       <Filter>Source Files\Headers\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="..\proj.win32\GalaxyWars\Enemies\Sniper.h">
+    <ClInclude Include="..\Classes\GalaxyWars\Enemies\Sniper.h">
       <Filter>Source Files\Headers\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="..\proj.win32\GalaxyWars\Weapon\Firearms.h">
+    <ClInclude Include="..\Classes\GalaxyWars\Weapon\Firearms.h">
       <Filter>Source Files\Headers\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="..\proj.win32\GalaxyWars\Weapon\Projectile.h">
+    <ClInclude Include="..\Classes\GalaxyWars\Weapon\Projectile.h">
       <Filter>Source Files\Headers\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="..\proj.win32\GalaxyWars\Weapon\Weapon.h">
+    <ClInclude Include="..\Classes\GalaxyWars\Weapon\Weapon.h">
       <Filter>Source Files\Headers\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="..\proj.win32\GalaxyWars\Character.h">
+    <ClInclude Include="..\Classes\GalaxyWars\Character.h">
       <Filter>Source Files\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\proj.win32\GalaxyWars\GameManager.h">
+    <ClInclude Include="..\Classes\GalaxyWars\GameManager.h">
       <Filter>Source Files\Headers</Filter>
     </ClInclude>
   </ItemGroup>

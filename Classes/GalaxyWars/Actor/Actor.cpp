@@ -68,8 +68,8 @@ Actor::Actor(const Point& centerPosition, const float& health, const string& fil
 	if (_sprite)
 	{
 		float radius_tmp;
-		int textureW = _sprite->getContentSize().width;
-		int textureH = _sprite->getContentSize().height;
+		float textureW = _sprite->getContentSize().width;
+		float textureH = _sprite->getContentSize().height;
 
 		if (textureW >= textureH)
 		{
