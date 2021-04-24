@@ -32,7 +32,7 @@ protected:
 
 	float _projectileSpeed;
 
-	const string& _spriteName;
+	const string _spriteName;
 
 	// Список летящих снарядов, выпущенных оружием
 	vector<shared_ptr<Projectile>> _projectiles;

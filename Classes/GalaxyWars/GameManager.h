@@ -49,6 +49,7 @@ public:
 	void MoveCharacterTo(const float& newDegrees);
 
 	bool IsGameOver();
+	void StartGame();
 	void RestartGame();
 	void EndGame();
 
@@ -76,20 +77,20 @@ private:
 template<typename TCharacter>
 void GameManager::CreateCharacter(const float& health, shared_ptr<Weapon> weapon, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate)
 {
-	_character = make_shared<TCharacter>(health, texture, globalCenter, radius, startRotate);
+	_character = make_shared<TCharacter>(health, filename, globalCenter, radius, startRotate);
 
 	if (_character && weapon)
 	{
 		_character->SetWeapon(weapon);
 	}
 
-	int healthX = 100;
-	int healthY = 100;
-	int healthOffset = 80;
+	float healthX = 100.0f;
+	float healthY = 100.0f;
+	float healthOffset = 80.0f;
 
 	for (int i = 0; i < health; ++i)
 	{
-		auto life = make_shared<Actor>(Point(healthX, healthY + (i * healthOffset)), 1.0f, texture);
+		auto life = make_shared<Actor>(Point(healthX, healthY + (i * healthOffset)), 1.0f, filename);
 		_characterHealth.push_back(life);
 	}
 }
@@ -102,7 +103,7 @@ void GameManager::CreateEnemies(const unsigned int& amount, const float& health,
 
 	for (auto wpn : weapons)
 	{
-		shared_ptr<TEnemy> newEnemy = make_shared<TEnemy>(health, texture, globalCenter, radius, offsetSum, RPS, step);
+		shared_ptr<TEnemy> newEnemy = make_shared<TEnemy>(health, filename, globalCenter, radius, offsetSum, RPS, step);
 		if (newEnemy)
 		{
 			FillEnemy(newEnemy, wpn, visibleZone, stormtrooperEffect);
@@ -114,7 +115,7 @@ void GameManager::CreateEnemies(const unsigned int& amount, const float& health,
 
 	for (unsigned int i = 0; i < remainingAmount; ++i)
 	{
-		shared_ptr<TEnemy> newEnemy = make_shared<TEnemy>(health, texture, globalCenter, radius, offsetSum, RPS, step);
+		shared_ptr<TEnemy> newEnemy = make_shared<TEnemy>(health, filename, globalCenter, radius, offsetSum, RPS, step);
 		if (newEnemy)
 		{
 			FillEnemy(newEnemy, shared_ptr<Weapon>(nullptr), visibleZone, stormtrooperEffect);

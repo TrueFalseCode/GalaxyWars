@@ -25,7 +25,19 @@
 #ifndef __HELLOWORLD_SCENE_H__
 #define __HELLOWORLD_SCENE_H__
 
+enum {
+	WINDOW_WIDTH = 1920,
+	WINDOW_HEIGHT = 1080
+};
+
 #include "cocos2d.h"
+
+#include "GalaxyWars//GameManager.h"
+#include "GalaxyWars//Character.h"
+#include "GalaxyWars//Enemies//Enemy.h"
+#include "GalaxyWars//Enemies//Sniper.h"
+#include "GalaxyWars//Weapon//Weapon.h"
+#include "GalaxyWars//Weapon//Firearms.h"
 
 class HelloWorld : public cocos2d::Scene
 {
@@ -33,12 +45,16 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
+	virtual void update(float dt);
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+
+private:
+	GameManager _gameManager;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

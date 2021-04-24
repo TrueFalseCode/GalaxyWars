@@ -4,8 +4,7 @@
 
 GameManager::GameManager() : _bGameOver(true)
 {
-	// TMP CODE
-	//_text = make_shared<Actor>(Point(), 1.0f, Core::resourceManager.Get<Render::Texture>("Start"));
+	_text = make_shared<Actor>(Point(), 1.0f, "Start.png");
 }
 
 void GameManager::Update(const float & dt)
@@ -19,9 +18,11 @@ void GameManager::Update(const float & dt)
 		{
 			EndGame();
 
-			// TMP CODE
-			/*_text->SetTexture(Core::resourceManager.Get<Render::Texture>("YouWin"));
-			_text->SetActorPosition(_character->GetGlobalCenter());*/
+			if (_text)
+			{
+				_text->SetSpriteTexture("YouWin.png");
+				_text->SetActorPosition(_character->GetGlobalCenter());
+			}
 
 			return;
 		}
@@ -30,9 +31,11 @@ void GameManager::Update(const float & dt)
 		{
 			EndGame();
 
-			// TMP CODE
-			/*_text->SetTexture(Core::resourceManager.Get<Render::Texture>("YouLose"));
-			_text->SetActorPosition(_character->GetGlobalCenter());*/
+			if (_text)
+			{
+				_text->SetSpriteTexture("YouLose.png");
+				_text->SetActorPosition(_character->GetGlobalCenter());
+			}
 
 			return;
 		}
@@ -100,11 +103,15 @@ bool GameManager::IsGameOver()
 	return _bGameOver;
 }
 
+void GameManager::StartGame()
+{
+	_bGameOver = false;
+}
+
 void GameManager::RestartGame()
 {
 	EndGame();
-
-	_bGameOver = false;
+	StartGame();
 }
 
 void GameManager::EndGame()
@@ -114,9 +121,8 @@ void GameManager::EndGame()
 
 	_bGameOver = true;
 
-	// TMP CODE
-	/*if(_text)
-		_text->SetTexture(Core::resourceManager.Get<Render::Texture>("Start"));*/
+	if(_text)
+		_text->SetSpriteTexture("Start.png");
 }
 
 GameManager::~GameManager()

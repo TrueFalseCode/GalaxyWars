@@ -53,7 +53,7 @@ protected:
 	Point GetTargetPositionWithStormtrooperEffect(const float& rotateDegrees, const float& radius);
 
 	shared_ptr<const CircleActor> _character;
-	float _RPS;
+	float _speed;
 	float _step;
 	float _timeByStep;
 

@@ -22,11 +22,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-enum {
-	WINDOW_WIDTH = 1920,
-	WINDOW_HEIGHT = 1080
-};
-
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 

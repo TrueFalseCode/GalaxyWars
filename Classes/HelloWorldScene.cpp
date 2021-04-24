@@ -48,8 +48,12 @@ bool HelloWorld::init()
         return false;
     }
 
+	this->scheduleUpdate();
+
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	const Point globalCenterPoint(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
 
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -100,8 +104,28 @@ bool HelloWorld::init()
         this->addChild(label, 1);
     }
 
+	Actor::SetCurrentScene(this);
+
+	// Создание главного персонажа, которым управляет игрок, а также его оружия
+	shared_ptr<Weapon> CharacterWeapon = make_shared<Firearms>(1.0f, 0.3f, 7.0f, "PlayerProjectile.png");
+	_gameManager.CreateCharacter<Character>(10.0f, CharacterWeapon, "Player.png", globalCenterPoint, 500.0f, 180.0f);
+
+	vector<shared_ptr<Weapon>> enemyWeapons;
+
+	// Создание первого круга врагов (ближнего к центру игрового поля) и их оружия : тип врагов Sniper : Circle 1
+	int numberOfEnemy_firstCircle = 8;
+	for (int i = 0; i < numberOfEnemy_firstCircle; ++i)
+	{
+		enemyWeapons.push_back(make_shared<Firearms>(1.0f, 8.0f, 7.0f, "EnemyProjectile.png"));
+	}
+	_gameManager.CreateEnemies<Sniper>(numberOfEnemy_firstCircle, 4.0f, enemyWeapons, 0.0f, (360.0f / numberOfEnemy_firstCircle), "SniperEnemy.png", globalCenterPoint, 100.0f, 0.5f, -2.0f, 90.0f, 0.1f);
+
+	enemyWeapons.clear();
+
+	_gameManager.StartGame();
+
     // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
+    /*auto sprite = Sprite::create("HelloWorld.png");
     if (sprite == nullptr)
     {
         problemLoading("'HelloWorld.png'");
@@ -113,8 +137,13 @@ bool HelloWorld::init()
 
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
-    }
+    }*/
     return true;
+}
+
+void HelloWorld::update(float dt)
+{
+	_gameManager.Update(dt);
 }
 
 

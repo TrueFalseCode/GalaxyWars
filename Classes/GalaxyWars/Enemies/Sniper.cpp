@@ -1,7 +1,7 @@
 ﻿
 #include "Sniper.h"
 
-Sniper::Sniper(const float & health, const string& filename, const Point & globalCenter, const float & radius, const int & startRotate, const float & RPS, const int & step) : 
+Sniper::Sniper(const float & health, const string& filename, const Point & globalCenter, const float & radius, const float & startRotate, const float & RPS, const float & step) : 
 	Enemy(health, filename, globalCenter, radius, startRotate, RPS, step)
 {
 }

@@ -7,6 +7,7 @@ using std::shared_ptr;
 using std::string;
 
 #include "cocos2d.h"
+using cocos2d::Scene;
 using cocos2d::Sprite;
 using cocos2d::Point;
 
@@ -60,8 +61,8 @@ public:
 	virtual void Update(const float& dt);
 
 	Point GetActorPosition() const;
-	Point GetTexturePosition() const;
-	Sprite* GetTexture() const;
+	Point GetSpritePosition() const;
+	Sprite* GetSprite() const;
 
 	// При задании позиции для объекта Actor, 
 	// указанная точка будет находиться в центре объекта,
@@ -70,9 +71,9 @@ public:
 	void SetActorPosition(const Point & new_position);
 
 	// Функция позволяет смещать текстуру относительно Actor'а
-	void SetTexturePosition(const Point & new_position);
+	void SetSpritePosition(const Point & new_position);
 
-	void SetTexture(Sprite* new_sprite);
+	void SetSpriteTexture(const string& filename);
 
 	bool CheckCollision(shared_ptr<const Actor> another_actor);
 
@@ -80,6 +81,9 @@ public:
 	void DoHeal(const float & heal);
 	void DoDamage(const float & damage);
 	bool IsDied();
+
+	static void SetCurrentScene(Scene* currentScene);
+	static Scene* GetCurrentScene();
 
 protected:
 
@@ -90,6 +94,8 @@ protected:
 
 private:
 
+	static Scene* _currentScene;
+
 	// _maxHealth необходима для того, 
 	// чтобы после "лечения"(DoHeal()) 
 	// у объекта не оказалось больше хп, чем было
@@ -97,7 +103,6 @@ private:
 
 	float _currentHealth;
 	Sphere _body;
-	Point _spritePosition;
 	Sprite* _sprite;
 };
 // ===== Actor >>>>>

@@ -5,6 +5,7 @@ Firearms::Firearms(const float & damage, const float& coolDown, const float& pro
 																												_projectileSpeed(projectileSpeed), 
 																												_spriteName(filename)
 {
+	int a = 1;
 }
 
 void Firearms::Update(const float & dt)
@@ -38,7 +39,7 @@ void Firearms::DoAttack(const Actor* attackingActor, const Point& target)
 	{
 		if (attackingActor)
 		{
-			_projectiles.push_back(make_shared<Projectile>(attackingActor->GetActorPosition(), target, 1.0f, GetDamage(), _spriteName, _projectileSpeed));
+			_projectiles.push_back(make_shared<Projectile>(attackingActor->GetSpritePosition(), target, 1.0f, GetDamage(), _spriteName, _projectileSpeed));
 			StartCoolDown();
 		}
 	}
@@ -50,7 +51,7 @@ void Firearms::DoAttack(const Actor * attackingActor, const Actor * target)
 	{
 		if (attackingActor && target)
 		{
-			DoAttack(attackingActor, target->GetActorPosition());
+			DoAttack(attackingActor, target->GetSpritePosition());
 		}
 	}
 }

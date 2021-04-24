@@ -9,7 +9,7 @@
 class Sniper : public Enemy
 {
 public:
-	Sniper(const float& health, const string& filename, const Point& globalCenter, const float& radius, const int& startRotate, const float& RPS, const int& step);
+	Sniper(const float& health, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate, const float& RPS, const float& step);
 
 	virtual	void Update(const float& dt) override;
 };

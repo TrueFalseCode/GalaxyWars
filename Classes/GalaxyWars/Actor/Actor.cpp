@@ -56,10 +56,11 @@ float Sphere::GetDistance(const Point & A, const Point & B)
 
 // <<<<< Actor =====
 
-Actor::Actor(const Point& centerPosition, const float& health, const string& filename) : _maxHealth(health), _currentHealth(health), _timer(0.0f)
+Scene* Actor::_currentScene = nullptr;
+
+Actor::Actor(const Point& centerPosition, const float& health, const string& filename) : _maxHealth(health), _currentHealth(health), _timer(0.0f), _sprite(nullptr)
 {
 	_sprite = Sprite::create(filename);
-
 	SetActorPosition(centerPosition);
 
 	// Если задана текстура, то диаметр сферы, 
@@ -68,19 +69,22 @@ Actor::Actor(const Point& centerPosition, const float& health, const string& fil
 	if (_sprite)
 	{
 		float radius_tmp;
-		float textureW = _sprite->getContentSize().width;
-		float textureH = _sprite->getContentSize().height;
+		float spriteW = _sprite->getContentSize().width;
+		float spriteH = _sprite->getContentSize().height;
 
-		if (textureW >= textureH)
+		if (spriteW >= spriteH)
 		{
-			radius_tmp = textureW;
+			radius_tmp = spriteW;
 		}
 		else
 		{
-			radius_tmp = textureH;
+			radius_tmp = spriteH;
 		}
 
 		_body.SetRadius(radius_tmp / 2);
+
+		if (Actor::_currentScene)
+			Actor::_currentScene->addChild(_sprite);
 	}
 }
 
@@ -91,12 +95,12 @@ Point Actor::GetActorPosition() const
 	return _body.GetPosition();
 }
 
-Point Actor::GetTexturePosition() const
+Point Actor::GetSpritePosition() const
 {
-	return _spritePosition;
+	return _sprite->getPosition();
 }
 
-Sprite * Actor::GetTexture() const
+Sprite* Actor::GetSprite() const
 {
 	return _sprite;
 }
@@ -110,17 +114,17 @@ void Actor::SetActorPosition(const Point & new_position)
 		float X = new_position.x - (_sprite->getContentSize().width / 2);
 		float Y = new_position.y - (_sprite->getContentSize().height / 2);
 
-		SetTexturePosition(Point(X, Y));
+		SetSpritePosition(Point(X, Y));
 	}
 	else
 	{
-		SetTexturePosition(new_position);
+		SetSpritePosition(new_position);
 	}
 }
 
-void Actor::SetTexturePosition(const Point & new_position)
+void Actor::SetSpritePosition(const Point & new_position)
 {
-	_spritePosition = new_position;
+	_sprite->setPosition(new_position);
 }
 
 void Actor::SetBodyPosition(const Point & new_position)
@@ -128,9 +132,11 @@ void Actor::SetBodyPosition(const Point & new_position)
 	_body.SetPosition(new_position);
 }
 
-void Actor::SetTexture(Sprite * new_sprite)
+void Actor::SetSpriteTexture(const string& filename)
 {
-		_sprite = new_sprite;
+	// TMP CODE
+	//if(_sprite)
+		//_sprite->setTexture(filename);
 }
 
 bool Actor::CheckCollision(shared_ptr<const Actor> another_actor)
@@ -165,6 +171,16 @@ void Actor::DoDamage(const float & damage)
 bool Actor::IsDied()
 {
 	return _currentHealth <= 0.0f;
+}
+
+void Actor::SetCurrentScene(cocos2d::Scene* currentScene)
+{
+	_currentScene = currentScene;
+}
+
+Scene * Actor::GetCurrentScene()
+{
+	return _currentScene;
 }
 
 // ===== Actor >>>>>
