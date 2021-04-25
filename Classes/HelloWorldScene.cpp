@@ -108,7 +108,7 @@ bool HelloWorld::init()
 
 	// Создание главного персонажа, которым управляет игрок, а также его оружия
 	shared_ptr<Weapon> CharacterWeapon = make_shared<Firearms>(1.0f, 0.3f, 7.0f, "PlayerProjectile.png");
-	_gameManager.CreateCharacter<Character>(10.0f, CharacterWeapon, "Player.png", globalCenterPoint, 500.0f, 180.0f);
+	_gameManager.CreateCharacter<Character>(10.0f, CharacterWeapon, "Player.png", globalCenterPoint, 500.0f, 0.0f);
 
 	vector<shared_ptr<Weapon>> enemyWeapons;
 
@@ -116,7 +116,7 @@ bool HelloWorld::init()
 	int numberOfEnemy_firstCircle = 8;
 	for (int i = 0; i < numberOfEnemy_firstCircle; ++i)
 	{
-		enemyWeapons.push_back(make_shared<Firearms>(1.0f, 8.0f, 7.0f, "EnemyProjectile.png"));
+		enemyWeapons.push_back(make_shared<Firearms>(1.0f, 8.0f, 5.0f, "EnemyProjectile.png"));
 	}
 	_gameManager.CreateEnemies<Sniper>(numberOfEnemy_firstCircle, 4.0f, enemyWeapons, 0.0f, (360.0f / numberOfEnemy_firstCircle), "SniperEnemy.png", globalCenterPoint, 100.0f, 0.5f, -2.0f, 90.0f, 0.1f);
 

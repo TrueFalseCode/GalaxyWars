@@ -28,11 +28,11 @@ public:
 
 	// Данная функция наносит урон заданному Actor'у в зависимости от логики конкретного оружия,
 	// а затем возвращает true, если урон был нанесен Actor'у 
-	virtual bool CheckNProcessHits(shared_ptr<Actor> actor);
+	virtual bool CheckAndProcessHits(shared_ptr<Actor> actor);
 
 	// Данная функция наносит урон заданным Actor'ам в зависимости от логики конкретного оружия,
 	// а затем возвращает список Actor'ов, которым был нанесен урон
-	virtual vector<shared_ptr<Actor>> CheckNProcessHits(vector<shared_ptr<Actor>> actors);
+	virtual vector<shared_ptr<Actor>> CheckAndProcessHits(vector<shared_ptr<Actor>> actors);
 
 private:
 

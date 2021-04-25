@@ -17,13 +17,13 @@ void Character::Update(const float & dt)
 	UpdateWeapon(dt);
 }
 
-vector<shared_ptr<Actor>> Character::CheckNProcessHits(vector<shared_ptr<Enemy>> enemies)
+vector<shared_ptr<Actor>> Character::CheckAndProcessHits(vector<shared_ptr<Enemy>> enemies)
 {
 	vector<shared_ptr<Actor>> hitsEnemies;
 
 	for (auto enm : enemies)
 	{
-		if (AttackActor::CheckNProcessHits(enm))
+		if (AttackActor::CheckAndProcessHits(enm))
 		{
 			hitsEnemies.push_back(enm);
 		}

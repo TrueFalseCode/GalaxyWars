@@ -57,11 +57,11 @@ class Actor
 public:
 
 	Actor(const Point& positionByCenter, const float& health, const string& filename);
+	~Actor();
 
 	virtual void Update(const float& dt);
 
 	Point GetActorPosition() const;
-	Point GetSpritePosition() const;
 	Sprite* GetSprite() const;
 
 	// При задании позиции для объекта Actor, 
@@ -69,9 +69,6 @@ public:
 	// а также в центре текстуры и объекта Sphere,
 	// который отвечает за представление границ Actor'а
 	void SetActorPosition(const Point & new_position);
-
-	// Функция позволяет смещать текстуру относительно Actor'а
-	void SetSpritePosition(const Point & new_position);
 
 	void SetSpriteTexture(const string& filename);
 
@@ -93,6 +90,11 @@ protected:
 	float _timer;
 
 private:
+
+	Point GetSpritePosition() const;
+
+	// Функция позволяет смещать текстуру относительно Actor'а
+	void SetSpritePosition(const Point & new_position);
 
 	static Scene* _currentScene;
 

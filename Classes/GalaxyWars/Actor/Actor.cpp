@@ -88,6 +88,12 @@ Actor::Actor(const Point& centerPosition, const float& health, const string& fil
 	}
 }
 
+Actor::~Actor()
+{
+	if (Actor::_currentScene && _sprite)
+		Actor::_currentScene->removeChild(_sprite);
+}
+
 void Actor::Update(const float& dt) {}
 
 Point Actor::GetActorPosition() const
@@ -108,23 +114,13 @@ Sprite* Actor::GetSprite() const
 void Actor::SetActorPosition(const Point & new_position)
 {
 	SetBodyPosition(new_position);
-
-	if (_sprite)
-	{
-		float X = new_position.x - (_sprite->getContentSize().width / 2);
-		float Y = new_position.y - (_sprite->getContentSize().height / 2);
-
-		SetSpritePosition(Point(X, Y));
-	}
-	else
-	{
-		SetSpritePosition(new_position);
-	}
+	SetSpritePosition(new_position);
 }
 
 void Actor::SetSpritePosition(const Point & new_position)
 {
-	_sprite->setPosition(new_position);
+	if(_sprite)
+		_sprite->setPosition(new_position);
 }
 
 void Actor::SetBodyPosition(const Point & new_position)
@@ -134,9 +130,8 @@ void Actor::SetBodyPosition(const Point & new_position)
 
 void Actor::SetSpriteTexture(const string& filename)
 {
-	// TMP CODE
-	//if(_sprite)
-		//_sprite->setTexture(filename);
+	if(_sprite)
+		_sprite->setTexture(filename);
 }
 
 bool Actor::CheckCollision(shared_ptr<const Actor> another_actor)

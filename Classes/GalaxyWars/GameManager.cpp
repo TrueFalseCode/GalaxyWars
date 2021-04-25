@@ -39,7 +39,7 @@ void GameManager::Update(const float & dt)
 
 			return;
 		}
-		_character->CheckNProcessHits(_enemies);
+		_character->CheckAndProcessHits(_enemies);
 		_character->Update(dt);
 
 
@@ -56,7 +56,7 @@ void GameManager::Update(const float & dt)
 				}
 				else
 				{
-					if (currEnemy->CheckNProcessHits(_character))
+					if (currEnemy->CheckAndProcessHits(_character))
 					{
 						_characterHealth.erase(_characterHealth.begin());
 					}

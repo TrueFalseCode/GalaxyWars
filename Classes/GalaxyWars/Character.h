@@ -21,7 +21,7 @@ public:
 
 	// Данная функция наносит урон заданным Actor'ам(в данном случае - Enemy) в зависимости от логики конкретного оружия,
 	// а затем возвращает список Actor'ов, которым был нанесен урон
-	vector<shared_ptr<Actor>> CheckNProcessHits(vector<shared_ptr<Enemy>> enemies);
+	vector<shared_ptr<Actor>> CheckAndProcessHits(vector<shared_ptr<Enemy>> enemies);
 
 	// Функция перемещает персонажа на заданное 
 	// количество градусов относительно его текущего положения.

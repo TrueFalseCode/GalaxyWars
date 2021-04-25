@@ -37,7 +37,7 @@ void AttackActor::DoAttack(const Actor* attackingActor, const Actor* target)
 		_weapon->DoAttack(attackingActor, target);
 }
 
-bool AttackActor::CheckNProcessHits(shared_ptr<Actor> actor)
+bool AttackActor::CheckAndProcessHits(shared_ptr<Actor> actor)
 {
 	if (_weapon && _weapon->CheckHits(actor))
 	{
@@ -49,7 +49,7 @@ bool AttackActor::CheckNProcessHits(shared_ptr<Actor> actor)
 	return false;
 }
 
-vector<shared_ptr<Actor>> AttackActor::CheckNProcessHits(vector<shared_ptr<Actor>> actors)
+vector<shared_ptr<Actor>> AttackActor::CheckAndProcessHits(vector<shared_ptr<Actor>> actors)
 {
 	vector<shared_ptr<Actor>> hitsActors;
 

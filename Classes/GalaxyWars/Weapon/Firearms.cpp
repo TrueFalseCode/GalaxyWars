@@ -39,7 +39,7 @@ void Firearms::DoAttack(const Actor* attackingActor, const Point& target)
 	{
 		if (attackingActor)
 		{
-			_projectiles.push_back(make_shared<Projectile>(attackingActor->GetSpritePosition(), target, 1.0f, GetDamage(), _spriteName, _projectileSpeed));
+			_projectiles.push_back(make_shared<Projectile>(attackingActor->GetActorPosition(), target, 1.0f, GetDamage(), _spriteName, _projectileSpeed));
 			StartCoolDown();
 		}
 	}
@@ -51,7 +51,7 @@ void Firearms::DoAttack(const Actor * attackingActor, const Actor * target)
 	{
 		if (attackingActor && target)
 		{
-			DoAttack(attackingActor, target->GetSpritePosition());
+			DoAttack(attackingActor, target->GetActorPosition());
 		}
 	}
 }

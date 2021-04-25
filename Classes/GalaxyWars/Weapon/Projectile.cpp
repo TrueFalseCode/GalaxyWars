@@ -7,30 +7,51 @@ Projectile::Projectile(const Point & start,
 					   const float & damage,
 					   const string& filename,
 					   const float & speedCoefficient) : Actor(start, health, filename),
-													      _speedCoefficient(speedCoefficient)
+													    _speedCoefficient(speedCoefficient),
+														_finishPoint(finish),
+														_positionNode(nullptr)
 {
-	// TMP CODE
-	/*_spline.addKey(0.0f, start);
-	_spline.addKey(1.0f, finish);
-	_spline.CalculateGradient();*/
+	auto currentScene = Actor::GetCurrentScene();
+	if (currentScene)
+	{
+		_positionNode = Node::create();
+
+		if (_positionNode)
+		{
+			_positionNode->setPosition(this->GetActorPosition());
+			_positionNode->runAction(MoveTo::create(1 / _speedCoefficient, finish));
+
+			currentScene->addChild(_positionNode);
+		}
+	}
+}
+
+Projectile::~Projectile()
+{
+	auto currentScene = Actor::GetCurrentScene();
+	if (currentScene && _positionNode)
+	{
+		currentScene->removeChild(_positionNode);
+	}
 }
 
 void Projectile::Update(const float & dt)
 {
-	// TMP CODE
-	/*_timer += dt * _speedCoefficient;
-
-	Point nextPosition;// = _spline.getGlobalFrame(std::clamp(0.0f, 1.0f, _timer / 6.0f));
-
-	// Как только снаряд достиг конечной точки, 
-	// ему наносится урон, равный его здоровью,
-	// чтобы обозначить, что он должен быть уничтожен.
-	if (nextPosition == _spline.GetKey(_spline.GetKeysCount() - 1))
+	if (_positionNode)
 	{
-		DoDamage(GetCurrentHealth());
+		Point nextPosition = _positionNode->getPosition();// = _spline.getGlobalFrame(std::clamp(0.0f, 1.0f, _timer / 6.0f));
+
+		// Как только снаряд достиг конечной точки, 
+		// ему наносится урон, равный его здоровью,
+		// чтобы обозначить, что он должен быть уничтожен.
+		//if (nextPosition == _spline.GetKey(_spline.GetKeysCount() - 1))
+		if (nextPosition == _finishPoint)
+		{
+			DoDamage(GetCurrentHealth());
+		}
+		else
+		{
+			SetActorPosition(nextPosition);
+		}
 	}
-	else
-	{
-		SetActorPosition(nextPosition);
-	}*/
 }
