@@ -1,4 +1,5 @@
-﻿/****************************************************************************
+﻿
+/****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
@@ -23,16 +24,16 @@
  ****************************************************************************/
 
 #include "MainMenu.h"
-#include "GameField.h"
+#include "PauseMenu.h"
 
 USING_NS_CC;
 
-cocos2d::Scene * MainMenu::createScene()
+cocos2d::Scene * PauseMenu::createScene()
 {
-	return MainMenu::create();
+	return PauseMenu::create();
 }
 
-bool MainMenu::init()
+bool PauseMenu::init()
 {
 	if (!Scene::init())
 	{
@@ -42,42 +43,50 @@ bool MainMenu::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	const Point globalCenterPoint(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
-
-	auto background = Sprite::create("MenuBackground.jpg");
+	auto background = Sprite::create("PauseBackground.jpg");
 	if (background)
 	{
+		background->setScale(1.5f);
 		background->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 		this->addChild(background);
 	}
 
-	auto label = Label::createWithTTF("GALAXY WARS", "fonts/Marker Felt.ttf", 64);
-	if (label)
-	{
-		label->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - (label->getContentSize().height * 2)));
+	const Point globalCenterPoint(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
 
-		this->addChild(label, 1);
+	auto resumeButton = MenuItemImage::create(
+		"ResumeButton.png",
+		"ResumeButton.png",
+		CC_CALLBACK_1(PauseMenu::resumeCallback, this));
+
+	if (resumeButton)
+	{
+		resumeButton->setPosition(globalCenterPoint);
 	}
 
-	auto playButton = MenuItemImage::create(
-		"PlayButton.png",
-		"PlayButton.png",
-		CC_CALLBACK_1(MainMenu::playCallback, this));
-
-	if (playButton)
-	{
-		playButton->setPosition(globalCenterPoint);
-	}
-
-	auto menu = Menu::create(playButton, NULL);
+	auto menu = Menu::create(resumeButton, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
+
+	auto listener = EventListenerKeyboard::create();
+	if (listener)
+	{
+		listener->onKeyPressed = CC_CALLBACK_2(PauseMenu::onKeyPressed, this);
+
+		_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	}
 
 	return true;
 }
 
-void MainMenu::playCallback(cocos2d::Ref * pSender)
+void PauseMenu::resumeCallback(cocos2d::Ref * pSender)
 {
-	auto gameField = GameField::create();
-	Director::getInstance()->pushScene(gameField);
+	Director::getInstance()->popScene();
+}
+
+void PauseMenu::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event * event)
+{
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+	{
+		resumeCallback(this);
+	}
 }

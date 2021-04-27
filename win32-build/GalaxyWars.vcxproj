@@ -808,7 +808,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\Classes\GalaxyWars\Weapon\Projectile.h" />
     <ClInclude Include="..\Classes\GalaxyWars\Weapon\Weapon.h" />
     <ClInclude Include="..\Classes\GameField.h" />
+    <ClInclude Include="..\Classes\GameOver.h" />
     <ClInclude Include="..\Classes\MainMenu.h" />
+    <ClInclude Include="..\Classes\PauseMenu.h" />
     <ClInclude Include="D:\GitRepo\Projects\GalaxyWars\Classes\AppDelegate.h" />
     <ClInclude Include="D:\GitRepo\Projects\GalaxyWars\proj.win32\main.h" />
     <ClInclude Include="D:\GitRepo\Projects\GalaxyWars\proj.win32\resource.h" />
@@ -823,7 +825,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\Classes\GalaxyWars\Weapon\Projectile.cpp" />
     <ClCompile Include="..\Classes\GalaxyWars\Weapon\Weapon.cpp" />
     <ClCompile Include="..\Classes\GameField.cpp" />
+    <ClCompile Include="..\Classes\GameOver.cpp" />
     <ClCompile Include="..\Classes\MainMenu.cpp" />
+    <ClCompile Include="..\Classes\PauseMenu.cpp" />
     <ClCompile Include="D:\GitRepo\Projects\GalaxyWars\Classes\AppDelegate.cpp" />
     <ClCompile Include="D:\GitRepo\Projects\GalaxyWars\proj.win32\main.cpp" />
     <ResourceCompile Include="D:\GitRepo\Projects\GalaxyWars\proj.win32\game.rc" />

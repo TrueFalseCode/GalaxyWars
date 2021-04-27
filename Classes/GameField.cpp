@@ -23,6 +23,7 @@
  ****************************************************************************/
 
 #include "GameField.h"
+#include "PauseMenu.h"
 
 USING_NS_CC;
 
@@ -31,18 +32,8 @@ Scene* GameField::createScene()
 	return GameField::create();
 }
 
-// Print useful error message instead of segfaulting when files are not there.
-static void problemLoading(const char* filename)
-{
-	printf("Error while loading: %s\n", filename);
-	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in GameFieldScene.cpp\n");
-}
-
-// on "init" you need to initialize your instance
 bool GameField::init()
 {
-	//////////////////////////////
-	// 1. super init first
 	if (!Scene::init())
 	{
 		return false;
@@ -61,60 +52,18 @@ bool GameField::init()
 		this->addChild(background);
 	}
 
-	const Point globalCenterPoint(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
+	_globalCenterPoint.setPoint(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
 
-	/////////////////////////////
-	// 2. add a menu item with "X" image, which is clicked to quit the program
-	//    you may modify it.
-
-	// add a "close" icon to exit the progress. it's an autorelease object
-	auto closeItem = MenuItemImage::create(
-		"CloseNormal.png",
-		"CloseSelected.png",
-		CC_CALLBACK_1(GameField::menuCloseCallback, this));
-
-	if (closeItem == nullptr ||
-		closeItem->getContentSize().width <= 0 ||
-		closeItem->getContentSize().height <= 0)
+	auto listener = EventListenerKeyboard::create();
+	if (listener)
 	{
-		problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-	}
-	else
-	{
-		float x = origin.x + visibleSize.width - closeItem->getContentSize().width / 2;
-		float y = origin.y + closeItem->getContentSize().height / 2;
-		closeItem->setPosition(Vec2(x, y));
-	}
+		listener->onKeyPressed = CC_CALLBACK_2(GameField::onKeyPressed, this);
+		listener->onKeyReleased = CC_CALLBACK_2(GameField::onKeyReleased, this);
 
-	// create menu, it's an autorelease object
-	auto menu = Menu::create(closeItem, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 1);
-
-	/////////////////////////////
-	// 3. add your codes below...
-
-	// add a label shows "Hello World"
-	// create and initialize a label
-
-	auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-	if (label == nullptr)
-	{
-		problemLoading("'fonts/Marker Felt.ttf'");
-	}
-	else
-	{
-		// position the label on the center of the screen
-		label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - label->getContentSize().height));
-
-		// add the label as a child to this layer
-		this->addChild(label, 1);
+		_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 	}
 
 	Actor::SetCurrentScene(this);
-	_rightArrowDown = false;
-	_leftArrowDown = false;
 
 	// *
 	// Создание главного персонажа, которым управляет игрок, а также его оружия
@@ -127,21 +76,50 @@ bool GameField::init()
 	_gameManager.CreateCharacter<Character>(10.0f,				// КоличествоЖизней
 											CharacterWeapon,	// УказательНаОружие
 											"Player.png",		// ИмяФайлаДляСпрайта
-											globalCenterPoint,	// ЦентральнаяТочкаИгровогоПоля 
+											_globalCenterPoint,	// ЦентральнаяТочкаИгровогоПоля 
 											500.0f,				// РасстояниеОтЦентральнойТочки
-											0.0f,				// НачальнаяПозицияНаОкружности (в градусах)
-											70.0f);				// Скорость передвижения в заданной окружности (градусов в секунду)		
+											270.0f,				// НачальнаяПозицияНаОкружности (в градусах)
+											70.0f);				// Скорость передвижения в заданной окружности (градусов в секунду)
+
+	_currentDifficalt = 0.1f;
+	createGameObjects(_currentDifficalt);
+
+	_gameManager.StartGame();
+
+	return true;
+}
+
+void GameField::update(float dt)
+{
+	if (_gameManager.IsLevelUp())
+	{
+		_currentDifficalt += 0.1f;
+		if (_currentDifficalt >= 1.0f)
+		{
+			_gameManager.EndGame();
+			_currentDifficalt = 0.1f;
+		}
+		createGameObjects(_currentDifficalt);
+		_gameManager.StartGame();
+	}
+	_gameManager.Update(dt);
+}
+
+void GameField::createGameObjects(const float & difficalt)
+{
+	_rightArrowDown = false;
+	_leftArrowDown = false;		
 
 	vector<shared_ptr<Weapon>> enemyWeapons;
 	// *
 	// Создание первого круга врагов (ближнего к центру игрового поля) и их оружия : тип врагов Sniper : Circle 1
 	// *
-	int numberOfEnemy_firstCircle = 8;
+	int numberOfEnemy_firstCircle = 8 * difficalt;
 	for (int i = 0; i < numberOfEnemy_firstCircle; ++i)
 	{
 		enemyWeapons.push_back(make_shared<Firearms>(1.0f,						// НаносимыйУрон
-													8.0f,						// ЗадержкаМеждуАтаками
-													1.0f,						// СкоростьСнаряда
+													8.0f - difficalt,			// ЗадержкаМеждуАтаками
+													1.0f + difficalt,			// СкоростьСнаряда
 													"EnemyProjectile.png"));	// ИмяФайлаДляСпрайта
 	}
 	_gameManager.CreateEnemies<Sniper>(numberOfEnemy_firstCircle,				// Количество врагов в заданной окружности
@@ -150,9 +128,9 @@ bool GameField::init()
 										0.0f,									// Начальная позиция на окружности (для первого создаваемого врага; в градусах)
 										(360.0f / numberOfEnemy_firstCircle),	// Расстояние между врагами в заданной окружности
 										"SniperEnemy.png",						// Имя файла для спрайта
-										globalCenterPoint,						// Центральная точка игрового поля
+										_globalCenterPoint,						// Центральная точка игрового поля
 										100.0f,									// Расстояние от центральной точки
-										50.0f,									// Скорость передвижения врагов в заданной окружности (градусов в секунду)
+										50.0f + (difficalt * 50.0f),			// Скорость передвижения врагов в заданной окружности (градусов в секунду)
 										90.0f,									// Зона видимости врагов в заданной окружности, в пределах которой они атакуют (в градусах)
 										0.1f);									// Эффект штурмовика(Stormtrooper effect), задает точность попадания врага в цель (от 0.0 до 1.0)
 
@@ -161,12 +139,12 @@ bool GameField::init()
 	// *
 	// Создание вторго круга врагов и их оружия : тип врагов Enemy : Circle 2
 	// *
-	int numberOfEnemy_secondCircle = 15;
+	int numberOfEnemy_secondCircle = 15 * difficalt;
 	for (int i = 0; i < numberOfEnemy_secondCircle; ++i)
 	{
 		enemyWeapons.push_back(make_shared<Firearms>(1.0f,						// НаносимыйУрон
-													5.0f,						// ЗадержкаМеждуАтаками
-													1.0f,						// СкоростьСнаряда
+													5.0f - difficalt,			// ЗадержкаМеждуАтаками
+													1.0f + difficalt,			// СкоростьСнаряда
 													"EnemyProjectile.png"));	// ИмяФайлаДляСпрайта
 	}
 	_gameManager.CreateEnemies<Enemy>(numberOfEnemy_secondCircle,				// Количество врагов в заданной окружности
@@ -175,9 +153,9 @@ bool GameField::init()
 										0.0f,									// Начальная позиция на окружности (для первого создаваемого врага; в градусах)
 										(360.0f / numberOfEnemy_secondCircle),	// Расстояние между врагами в заданной окружности
 										"SimpleEnemy.png",						// Имя файла для спрайта
-										globalCenterPoint,						// Центральная точка игрового поля
+										_globalCenterPoint,						// Центральная точка игрового поля
 										200.0f,									// Расстояние от центральной точки
-										-10.0f,									// Скорость передвижения врагов в заданной окружности (градусов в секунду)
+										-10.0f - (difficalt * 50.0f),			// Скорость передвижения врагов в заданной окружности (градусов в секунду)
 										45.0f,									// Зона видимости врагов в заданной окружности, в пределах которой они атакуют (в градусах)
 										1.0f);									// Эффект штурмовика(Stormtrooper effect), задает точность попадания врага в цель (от 0.0 до 1.0)
 
@@ -186,12 +164,12 @@ bool GameField::init()
 	// *
 	// Создание третьего круга врагов и их оружия : тип врагов Enemy : Circle 3
 	// *
-	int numberOfEnemy_thirdCircle = 24;
+	int numberOfEnemy_thirdCircle = 24 * difficalt;
 	for (int i = 0; i < numberOfEnemy_thirdCircle; ++i)
 	{
 		enemyWeapons.push_back(make_shared<Firearms>(1.0f,						// НаносимыйУрон
-													5.0f,						// ЗадержкаМеждуАтаками
-													1.0f,						// СкоростьСнаряда
+													5.0f - difficalt,			// ЗадержкаМеждуАтаками
+													1.0f + difficalt,			// СкоростьСнаряда
 													"EnemyProjectile.png"));	// ИмяФайлаДляСпрайта
 	}
 	_gameManager.CreateEnemies<Enemy>(numberOfEnemy_thirdCircle,				// Количество врагов в заданной окружности
@@ -200,49 +178,20 @@ bool GameField::init()
 										0.0f,									// Начальная позиция на окружности (для первого создаваемого врага; в градусах)
 										(360.0f / numberOfEnemy_thirdCircle),	// Расстояние между врагами в заданной окружности
 										"SimpleEnemy.png",						// Имя файла для спрайта
-										globalCenterPoint,						// Центральная точка игрового поля
+										_globalCenterPoint,						// Центральная точка игрового поля
 										300.0f,									// Расстояние от центральной точки
-										40.0f,									// Скорость передвижения врагов в заданной окружности (градусов в секунду)
+										40.0f + (difficalt * 50.0f),			// Скорость передвижения врагов в заданной окружности (градусов в секунду)
 										45.0f,									// Зона видимости врагов в заданной окружности, в пределах которой они атакуют (в градусах)
 										1.0f);									// Эффект штурмовика(Stormtrooper effect), задает точность попадания врага в цель (от 0.0 до 1.0)
 
 	enemyWeapons.clear();
-
-	auto listener = EventListenerKeyboard::create();
-	listener->onKeyPressed = CC_CALLBACK_2(GameField::onKeyPressed, this);
-	listener->onKeyReleased = CC_CALLBACK_2(GameField::onKeyReleased, this);
-
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
-
-	_gameManager.StartGame();
-
-	// add "GameField" splash screen"
-	/*auto sprite = Sprite::create("GameField.png");
-	if (sprite == nullptr)
-	{
-		problemLoading("'GameField.png'");
-	}
-	else
-	{
-		// position the sprite on the center of the screen
-		sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-		// add the sprite as a child to this layer
-		this->addChild(sprite, 0);
-	}*/
-	return true;
-}
-
-void GameField::update(float dt)
-{
-	_gameManager.Update(dt);
 }
 
 
 void GameField::menuCloseCallback(Ref* pSender)
 {
 	//Close the cocos2d-x game scene and quit the application
-	Director::getInstance()->end();
+	//Director::getInstance()->end();
 
 	/*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
 
@@ -268,7 +217,8 @@ void GameField::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 		_gameManager.CharacterAttack();
 		break;
 	case EventKeyboard::KeyCode::KEY_ESCAPE:
-		Director::getInstance()->popScene();
+		auto pauseMenu = PauseMenu::create();
+		Director::getInstance()->pushScene(pauseMenu);
 		break;
 	}
 }

@@ -22,17 +22,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "MainMenu.h"
+#include "GameOver.h"
 #include "GameField.h"
 
 USING_NS_CC;
 
-cocos2d::Scene * MainMenu::createScene()
+cocos2d::Scene * GameOver::createScene()
 {
-	return MainMenu::create();
+	return GameOver::create();
 }
 
-bool MainMenu::init()
+bool GameOver::init()
 {
 	if (!Scene::init())
 	{
@@ -44,40 +44,41 @@ bool MainMenu::init()
 
 	const Point globalCenterPoint(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
 
-	auto background = Sprite::create("MenuBackground.jpg");
+	auto background = Sprite::create("PauseBackground.jpg");
 	if (background)
 	{
+		background->setScale(1.5f);
 		background->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 		this->addChild(background);
 	}
 
-	auto label = Label::createWithTTF("GALAXY WARS", "fonts/Marker Felt.ttf", 64);
+	auto label = Label::createWithTTF("GAME OVER", "fonts/Marker Felt.ttf", 64);
 	if (label)
 	{
-		label->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - (label->getContentSize().height * 2)));
+		label->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - (label->getContentSize().height * 4)));
 
 		this->addChild(label, 1);
 	}
 
-	auto playButton = MenuItemImage::create(
-		"PlayButton.png",
-		"PlayButton.png",
-		CC_CALLBACK_1(MainMenu::playCallback, this));
+	auto restartButton = MenuItemImage::create(
+		"RestartButton.png",
+		"RestartButton.png",
+		CC_CALLBACK_1(GameOver::restartCallback, this));
 
-	if (playButton)
+	if (restartButton)
 	{
-		playButton->setPosition(globalCenterPoint);
+		restartButton->setPosition(globalCenterPoint);
 	}
 
-	auto menu = Menu::create(playButton, NULL);
+	auto menu = Menu::create(restartButton, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
 
 	return true;
 }
 
-void MainMenu::playCallback(cocos2d::Ref * pSender)
+void GameOver::restartCallback(cocos2d::Ref * pSender)
 {
 	auto gameField = GameField::create();
-	Director::getInstance()->pushScene(gameField);
+	Director::getInstance()->replaceScene(gameField);
 }

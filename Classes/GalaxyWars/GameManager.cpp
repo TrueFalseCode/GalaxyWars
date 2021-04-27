@@ -1,14 +1,13 @@
 ﻿#pragma once
 
 #include "GameManager.h"
+#include "GameOver.h"
 
 #include "cocos2d.h"
 using cocos2d::Director;
 
-GameManager::GameManager() : _bGameOver(true), _characterDegreesPerSecond(0.0f)
+GameManager::GameManager() : _bGameOver(true), _bLevelUp(false), _characterDegreesPerSecond(0.0f)
 {
-	// TMP CODE
-	//_text = make_shared<Actor>(Point(), 1.0f, "Start.png");
 }
 
 void GameManager::Update(const float & dt)
@@ -18,18 +17,12 @@ void GameManager::Update(const float & dt)
 
 	if (_character)
 	{
-		// TMP CODE
 		if (_enemies.empty())
 		{
-			EndGame();
+			auto flag = make_shared<Actor>(Point(200.0f + (_flags.size() * (64.0f + 10.0f)), 100.0f), 1.0f, "Flag.png");
+			_flags.push_back(flag);
 
-			Director::getInstance()->replaceScene(Actor::GetCurrentScene());
-
-			/*if (_text)
-			{
-				_text->SetSpriteTexture("YouWin.png");
-				_text->SetActorPosition(_character->GetGlobalCenter());
-			}*/
+			_bLevelUp = true;
 
 			return;
 		}
@@ -38,20 +31,14 @@ void GameManager::Update(const float & dt)
 		{
 			EndGame();
 
-			Director::getInstance()->replaceScene(Actor::GetCurrentScene());
-
-			/*if (_text)
-			{
-				_text->SetSpriteTexture("YouLose.png");
-				_text->SetActorPosition(_character->GetGlobalCenter());
-			}*/
+			auto gameOverScene = GameOver::create();
+			Director::getInstance()->replaceScene(gameOverScene);
 
 			return;
 		}
 
 		_character->CheckAndProcessHits(_enemies);
 		_character->Update(dt);
-
 
 		for (auto beg = _enemies.begin(); beg != _enemies.cend(); )
 		{
@@ -76,12 +63,6 @@ void GameManager::Update(const float & dt)
 			}
 		}
 	}
-}
-
-void GameManager::SetTextCenter(const Point & textCenter)
-{
-	if (_text)
-		_text->SetActorPosition(textCenter);
 }
 
 void GameManager::CharacterAttack()
@@ -132,6 +113,11 @@ void GameManager::StopCharacter()
 	}
 }
 
+bool GameManager::IsLevelUp()
+{
+	return _bLevelUp;
+}
+
 bool GameManager::IsGameOver()
 {
 	return _bGameOver;
@@ -140,6 +126,8 @@ bool GameManager::IsGameOver()
 void GameManager::StartGame()
 {
 	_bGameOver = false;
+	_bLevelUp = false;
+	MoveCharacterTo(270.0f);
 }
 
 void GameManager::RestartGame()
@@ -152,11 +140,9 @@ void GameManager::EndGame()
 {
 	_characterHealth.clear();
 	_enemies.clear();
+	_flags.clear();
 
 	_bGameOver = true;
-
-	//if(_text)
-		//_text->SetSpriteTexture("Start.png");
 }
 
 GameManager::~GameManager()

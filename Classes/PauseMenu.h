@@ -24,46 +24,21 @@
 
 #pragma once
 
-enum {
-	WINDOW_WIDTH = 1920,
-	WINDOW_HEIGHT = 1080
-};
-
 #include "cocos2d.h"
 
-#include "GalaxyWars//GameManager.h"
-#include "GalaxyWars//Character.h"
-#include "GalaxyWars//Enemies//Enemy.h"
-#include "GalaxyWars//Enemies//Sniper.h"
-#include "GalaxyWars//Weapon//Weapon.h"
-#include "GalaxyWars//Weapon//Firearms.h"
-
-class GameField : public cocos2d::Scene
+class PauseMenu : public cocos2d::Scene
 {
 public:
 	static cocos2d::Scene* createScene();
 
 	virtual bool init();
-	virtual void update(float dt);
-
-	void createGameObjects(const float& difficalt);
 
 	// a selector callback
-	void menuCloseCallback(cocos2d::Ref* pSender);
+	void resumeCallback(cocos2d::Ref* pSender);
 
 	// implement the "static create()" method manually
-	CREATE_FUNC(GameField);
+	CREATE_FUNC(PauseMenu);
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-
-private:
-
-	float _currentDifficalt;
-
-	Point _globalCenterPoint;
-
-	bool _rightArrowDown;
-	bool _leftArrowDown;
-	GameManager _gameManager;
 };
+

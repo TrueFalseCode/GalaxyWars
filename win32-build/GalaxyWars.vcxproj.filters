@@ -43,6 +43,12 @@
     <ClCompile Include="..\Classes\MainMenu.cpp">
       <Filter>Source Files\Sources\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\PauseMenu.cpp">
+      <Filter>Source Files\Sources\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameOver.cpp">
+      <Filter>Source Files\Sources\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\GitRepo\Projects\GalaxyWars\proj.win32\main.h">
@@ -106,6 +112,12 @@
       <Filter>Source Files\Headers\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\MainMenu.h">
+      <Filter>Source Files\Headers\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PauseMenu.h">
+      <Filter>Source Files\Headers\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameOver.h">
       <Filter>Source Files\Headers\Scenes</Filter>
     </ClInclude>
   </ItemGroup>

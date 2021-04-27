@@ -38,10 +38,6 @@ public:
 
 	void Update(const float& dt);
 
-	// Функция устанавливает, в каком месте будет центр 
-	// отображаемого пояснительного текста(в данном случае - Actor'а с заданной текстурой)
-	void SetTextCenter(const Point& textCenter);
-
 	// Функция инициирует атаку главного персонажа
 	void CharacterAttack();
 
@@ -51,6 +47,7 @@ public:
 	void MoveCharacterTo(const float& newDegrees);
 	void StopCharacter();
 
+	bool IsLevelUp();
 	bool IsGameOver();
 	void StartGame();
 	void RestartGame();
@@ -63,9 +60,7 @@ private:
 	void FillEnemy(shared_ptr<Enemy> enemy, const shared_ptr<Weapon> weapon, const float& visibleZone, const float& stormtrooperEffect);
 
 	bool _bGameOver;
-
-	// Указатель на объект с пояснительным текстом
-	shared_ptr<Actor> _text;
+	bool _bLevelUp;
 
 	shared_ptr<Character> _character;
 	float _characterDegreesPerSecond;
@@ -73,6 +68,9 @@ private:
 	// Список, в котором хранятся "жизни" персонажа,
 	// которые по очереди изчезают, когда он получает урон.
 	vector<shared_ptr<Actor>> _characterHealth;
+
+	// Контейнер с флагами, которые показывают текущий уровень
+	vector<shared_ptr<Actor>> _flags;
 
 	// Список всех врагов, находящихся на сцене
 	vector<shared_ptr<Enemy>> _enemies;
