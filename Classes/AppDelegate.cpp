@@ -23,7 +23,12 @@
  ****************************************************************************/
 
 #include "AppDelegate.h"
-#include "GameField.h"
+#include "MainMenu.h"
+
+enum {
+	WINDOW_WIDTH = 1920,
+	WINDOW_HEIGHT = 1080
+};
 
 // #define USE_AUDIO_ENGINE 1
 
@@ -107,7 +112,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = GameField::createScene();
+    auto scene = MainMenu::createScene();
 
     // run
     director->runWithScene(scene);

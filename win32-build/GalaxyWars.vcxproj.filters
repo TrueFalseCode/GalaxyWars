@@ -28,9 +28,6 @@
     <ClCompile Include="..\Classes\GalaxyWars\Weapon\Weapon.cpp">
       <Filter>Source Files\Sources\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="D:\GitRepo\Projects\GalaxyWars\Classes\HelloWorldScene.cpp">
-      <Filter>Source Files\Sources\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="D:\GitRepo\Projects\GalaxyWars\Classes\AppDelegate.cpp">
       <Filter>Source Files\Sources\Core</Filter>
     </ClCompile>
@@ -104,9 +101,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GalaxyWars\GameManager.h">
       <Filter>Source Files\Headers\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\GitRepo\Projects\GalaxyWars\Classes\HelloWorldScene.h">
-      <Filter>Source Files\Headers\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameField.h">
       <Filter>Source Files\Headers\Scenes</Filter>
