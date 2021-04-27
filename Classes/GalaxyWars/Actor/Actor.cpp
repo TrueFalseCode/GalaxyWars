@@ -13,9 +13,9 @@ Point Sphere::GetPosition() const
 	return _centerPosition;
 }
 
-void Sphere::SetPosition(const Point & new_position)
+void Sphere::SetPosition(const Point & newPosition)
 {
-	_centerPosition = new_position;
+	_centerPosition = newPosition;
 }
 
 float Sphere::GetRadius() const
@@ -111,21 +111,28 @@ Sprite* Actor::GetSprite() const
 	return _sprite;
 }
 
-void Actor::SetActorPosition(const Point & new_position)
+void Actor::SetActorPosition(const Point & newPosition)
 {
-	SetBodyPosition(new_position);
-	SetSpritePosition(new_position);
+	SetBodyPosition(newPosition);
+	SetSpritePosition(newPosition);
 }
 
-void Actor::SetSpritePosition(const Point & new_position)
+void Actor::SetActorPosition(const Point & newPosition, const float & spriteRotation)
+{
+	SetActorPosition(newPosition);
+	if (_sprite)
+		_sprite->setRotation(spriteRotation);
+}
+
+void Actor::SetSpritePosition(const Point & newPosition)
 {
 	if(_sprite)
-		_sprite->setPosition(new_position);
+		_sprite->setPosition(newPosition);
 }
 
-void Actor::SetBodyPosition(const Point & new_position)
+void Actor::SetBodyPosition(const Point & newPosition)
 {
-	_body.SetPosition(new_position);
+	_body.SetPosition(newPosition);
 }
 
 void Actor::SetSpriteTexture(const string& filename)

@@ -71,13 +71,13 @@ void Enemy::SetStormtrooperEffect(const float & val)
 void Enemy::MoveBy(const float & stepDegrees)
 {
 	SetRotateDegrees(GetRotateDegrees() + stepDegrees);
-	SetActorPosition(GetNextPosition());
+	SetActorPosition(GetNextPosition(), -(GetRotateDegrees() - 90.0f));
 }
 
 void Enemy::MoveTo(const float & stepDegrees)
 {
 	SetRotateDegrees(stepDegrees);
-	SetActorPosition(GetNextPosition());
+	SetActorPosition(GetNextPosition(), -(GetRotateDegrees() - 90.0f));
 }
 
 bool Enemy::CheckVisibleZoneCollision(shared_ptr<const CircleActor> circleActor)

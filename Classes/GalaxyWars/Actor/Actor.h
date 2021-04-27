@@ -70,6 +70,9 @@ public:
 	// который отвечает за представление границ Actor'а
 	void SetActorPosition(const Point & new_position);
 
+	// Позволяет помимо позиции Actor'а задать ещё и поворот для спрайта
+	void SetActorPosition(const Point & new_position, const float& spriteRotation);
+
 	void SetSpriteTexture(const string& filename);
 
 	bool CheckCollision(shared_ptr<const Actor> another_actor);
