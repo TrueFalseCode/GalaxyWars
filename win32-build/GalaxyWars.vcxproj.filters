@@ -4,12 +4,6 @@
     <ClCompile Include="D:\GitRepo\Projects\GalaxyWars\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
-    <ClCompile Include="D:\GitRepo\Projects\GalaxyWars\Classes\AppDelegate.cpp">
-      <Filter>Source Files\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\GitRepo\Projects\GalaxyWars\Classes\HelloWorldScene.cpp">
-      <Filter>Source Files\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\GalaxyWars\Actor\Actor.cpp">
       <Filter>Source Files\Sources\Actor</Filter>
     </ClCompile>
@@ -34,20 +28,26 @@
     <ClCompile Include="..\Classes\GalaxyWars\Weapon\Weapon.cpp">
       <Filter>Source Files\Sources\Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="D:\GitRepo\Projects\GalaxyWars\Classes\HelloWorldScene.cpp">
+      <Filter>Source Files\Sources\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\GitRepo\Projects\GalaxyWars\Classes\AppDelegate.cpp">
+      <Filter>Source Files\Sources\Core</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\GalaxyWars\Character.cpp">
-      <Filter>Source Files\Sources</Filter>
+      <Filter>Source Files\Sources\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GalaxyWars\GameManager.cpp">
-      <Filter>Source Files\Sources</Filter>
+      <Filter>Source Files\Sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameField.cpp">
+      <Filter>Source Files\Sources\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MainMenu.cpp">
+      <Filter>Source Files\Sources\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\GitRepo\Projects\GalaxyWars\Classes\AppDelegate.h">
-      <Filter>Source Files\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\GitRepo\Projects\GalaxyWars\Classes\HelloWorldScene.h">
-      <Filter>Source Files\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="D:\GitRepo\Projects\GalaxyWars\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
     </ClInclude>
@@ -96,11 +96,23 @@
     <ClInclude Include="..\Classes\GalaxyWars\Weapon\Weapon.h">
       <Filter>Source Files\Headers\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="D:\GitRepo\Projects\GalaxyWars\Classes\AppDelegate.h">
+      <Filter>Source Files\Headers\Core</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\GalaxyWars\Character.h">
-      <Filter>Source Files\Headers</Filter>
+      <Filter>Source Files\Headers\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GalaxyWars\GameManager.h">
-      <Filter>Source Files\Headers</Filter>
+      <Filter>Source Files\Headers\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitRepo\Projects\GalaxyWars\Classes\HelloWorldScene.h">
+      <Filter>Source Files\Headers\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameField.h">
+      <Filter>Source Files\Headers\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MainMenu.h">
+      <Filter>Source Files\Headers\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +162,18 @@
     </Filter>
     <Filter Include="Source Files\Sources\Weapon">
       <UniqueIdentifier>{e891f87e-c2d7-4f59-86d1-a290f29e27ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Headers\Scenes">
+      <UniqueIdentifier>{76aa5bd9-6b56-4d4c-b2c4-b111caa79617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sources\Scenes">
+      <UniqueIdentifier>{678f521a-b4d5-441b-8a9f-edd4268ad222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sources\Core">
+      <UniqueIdentifier>{efec48d6-074c-42b7-a207-5399a68d01b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Headers\Core">
+      <UniqueIdentifier>{cf1d0ead-8918-42ba-a67c-e29dc5059b2c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
