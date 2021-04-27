@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
@@ -105,24 +105,106 @@ bool HelloWorld::init()
     }
 
 	Actor::SetCurrentScene(this);
+	_rightArrowDown = false;
+	_leftArrowDown = false;
 
-	// �������� �������� ���������, ������� ��������� �����, � ����� ��� ������
-	shared_ptr<Weapon> CharacterWeapon = make_shared<Firearms>(1.0f, 0.3f, 7.0f, "PlayerProjectile.png");
-	_gameManager.CreateCharacter<Character>(10.0f, CharacterWeapon, "Player.png", globalCenterPoint, 500.0f, 0.0f);
+	// *
+	// Создание главного персонажа, которым управляет игрок, а также его оружия
+	// *
+	shared_ptr<Weapon> CharacterWeapon = make_shared<Firearms>(1.0f,						// НаносимыйУрон
+																0.3f,						// ЗадержкаМеждуАтаками
+																2.0f,						// СкоростьСнаряда
+																"PlayerProjectile.png");	// ИмяФайлаДляСпрайта
+
+	_gameManager.CreateCharacter<Character>(10.0f,				// КоличествоЖизней
+											CharacterWeapon,	// УказательНаОружие
+											"Player.png",		// ИмяФайлаДляСпрайта
+											globalCenterPoint,	// ЦентральнаяТочкаИгровогоПоля 
+											500.0f,				// РасстояниеОтЦентральнойТочки
+											0.0f,				// НачальнаяПозицияНаОкружности (в градусах)
+											70.0f);				// Скорость передвижения в заданной окружности (градусов в секунду)		
 
 	vector<shared_ptr<Weapon>> enemyWeapons;
-
-	// �������� ������� ����� ������ (�������� � ������ �������� ����) � �� ������ : ��� ������ Sniper : Circle 1
+	// *
+	// Создание первого круга врагов (ближнего к центру игрового поля) и их оружия : тип врагов Sniper : Circle 1
+	// *
 	int numberOfEnemy_firstCircle = 8;
 	for (int i = 0; i < numberOfEnemy_firstCircle; ++i)
 	{
-		enemyWeapons.push_back(make_shared<Firearms>(1.0f, 8.0f, 5.0f, "EnemyProjectile.png"));
+		enemyWeapons.push_back(make_shared<Firearms>(1.0f,						// НаносимыйУрон
+													8.0f,						// ЗадержкаМеждуАтаками
+													1.0f,						// СкоростьСнаряда
+													"EnemyProjectile.png"));	// ИмяФайлаДляСпрайта
 	}
-	_gameManager.CreateEnemies<Sniper>(numberOfEnemy_firstCircle, 4.0f, enemyWeapons, 0.0f, (360.0f / numberOfEnemy_firstCircle), "SniperEnemy.png", globalCenterPoint, 100.0f, 0.5f, -2.0f, 90.0f, 0.1f);
+	_gameManager.CreateEnemies<Sniper>(numberOfEnemy_firstCircle,				// Количество врагов в заданной окружности
+										4.0f,									// Количество жизней
+										enemyWeapons,							// Указатель на список оружия (для каждого врага одно из списка)
+										0.0f,									// Начальная позиция на окружности (для первого создаваемого врага; в градусах)
+										(360.0f / numberOfEnemy_firstCircle),	// Расстояние между врагами в заданной окружности
+										"SniperEnemy.png",						// Имя файла для спрайта
+										globalCenterPoint,						// Центральная точка игрового поля
+										100.0f,									// Расстояние от центральной точки
+										50.0f,									// Скорость передвижения врагов в заданной окружности (градусов в секунду)
+										90.0f,									// Зона видимости врагов в заданной окружности, в пределах которой они атакуют (в градусах)
+										0.1f);									// Эффект штурмовика(Stormtrooper effect), задает точность попадания врага в цель (от 0.0 до 1.0)
 
 	enemyWeapons.clear();
 
-	_gameManager.StartGame();
+	// *
+	// Создание вторго круга врагов и их оружия : тип врагов Enemy : Circle 2
+	// *
+	int numberOfEnemy_secondCircle = 15;
+	for (int i = 0; i < numberOfEnemy_secondCircle; ++i)
+	{
+		enemyWeapons.push_back(make_shared<Firearms>(1.0f,						// НаносимыйУрон
+													5.0f,						// ЗадержкаМеждуАтаками
+													1.0f,						// СкоростьСнаряда
+													"EnemyProjectile.png"));	// ИмяФайлаДляСпрайта
+	}
+	_gameManager.CreateEnemies<Enemy>(numberOfEnemy_secondCircle,				// Количество врагов в заданной окружности
+										2.0f,									// Количество жизней
+										enemyWeapons,							// Указатель на список оружия (для каждого врага одно из списка)
+										0.0f,									// Начальная позиция на окружности (для первого создаваемого врага; в градусах)
+										(360.0f / numberOfEnemy_secondCircle),	// Расстояние между врагами в заданной окружности
+										"SimpleEnemy.png",						// Имя файла для спрайта
+										globalCenterPoint,						// Центральная точка игрового поля
+										200.0f,									// Расстояние от центральной точки
+										-10.0f,									// Скорость передвижения врагов в заданной окружности (градусов в секунду)
+										45.0f,									// Зона видимости врагов в заданной окружности, в пределах которой они атакуют (в градусах)
+										1.0f);									// Эффект штурмовика(Stormtrooper effect), задает точность попадания врага в цель (от 0.0 до 1.0)
+
+	enemyWeapons.clear();
+
+	// *
+	// Создание третьего круга врагов и их оружия : тип врагов Enemy : Circle 3
+	// *
+	int numberOfEnemy_thirdCircle = 24;
+	for (int i = 0; i < numberOfEnemy_thirdCircle; ++i)
+	{
+		enemyWeapons.push_back(make_shared<Firearms>(1.0f,						// НаносимыйУрон
+													5.0f,						// ЗадержкаМеждуАтаками
+													1.0f,						// СкоростьСнаряда
+													"EnemyProjectile.png"));	// ИмяФайлаДляСпрайта
+	}
+	_gameManager.CreateEnemies<Enemy>(numberOfEnemy_thirdCircle,				// Количество врагов в заданной окружности
+										2.0f,									// Количество жизней
+										enemyWeapons,							// Указатель на список оружия (для каждого врага одно из списка)
+										0.0f,									// Начальная позиция на окружности (для первого создаваемого врага; в градусах)
+										(360.0f / numberOfEnemy_thirdCircle),	// Расстояние между врагами в заданной окружности
+										"SimpleEnemy.png",						// Имя файла для спрайта
+										globalCenterPoint,						// Центральная точка игрового поля
+										300.0f,									// Расстояние от центральной точки
+										40.0f,									// Скорость передвижения врагов в заданной окружности (градусов в секунду)
+										45.0f,									// Зона видимости врагов в заданной окружности, в пределах которой они атакуют (в градусах)
+										1.0f);									// Эффект штурмовика(Stormtrooper effect), задает точность попадания врага в цель (от 0.0 до 1.0)
+
+	enemyWeapons.clear();
+
+	auto listener = EventListenerKeyboard::create();
+	listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
+	listener->onKeyReleased = CC_CALLBACK_2(HelloWorld::onKeyReleased, this);
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
     // add "HelloWorld" splash screen"
     /*auto sprite = Sprite::create("HelloWorld.png");
@@ -158,4 +240,50 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
+}
+
+void HelloWorld::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event * event)
+{
+	switch (keyCode)
+	{
+	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		_rightArrowDown = true;
+		_gameManager.MoveCharacterRight();
+		break;
+	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+		_leftArrowDown = true;
+		_gameManager.MoveCharacterLeft();
+		break;
+	case EventKeyboard::KeyCode::KEY_SPACE:
+		_gameManager.CharacterAttack();
+		break;
+	case EventKeyboard::KeyCode::KEY_ENTER:
+		_gameManager.StartGame();
+		break;
+	}
+}
+
+void HelloWorld::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event * event)
+{
+	switch (keyCode)
+	{
+	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+
+		_rightArrowDown = false;
+		if (_leftArrowDown)
+			_gameManager.MoveCharacterLeft();
+		else
+			_gameManager.StopCharacter();
+
+		break;
+	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+
+		_leftArrowDown = false;
+		if (_rightArrowDown)
+			_gameManager.MoveCharacterRight();
+		else
+			_gameManager.StopCharacter();
+
+		break;
+	}
 }

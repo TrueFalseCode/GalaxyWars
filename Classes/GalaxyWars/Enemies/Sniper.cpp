@@ -1,8 +1,8 @@
 ﻿
 #include "Sniper.h"
 
-Sniper::Sniper(const float & health, const string& filename, const Point & globalCenter, const float & radius, const float & startRotate, const float & RPS, const float & step) : 
-	Enemy(health, filename, globalCenter, radius, startRotate, RPS, step)
+Sniper::Sniper(const float & health, const string& filename, const Point & globalCenter, const float & radius, const float & startRotate, const float & degreesPerSecond) :
+	Enemy(health, filename, globalCenter, radius, startRotate, degreesPerSecond)
 {
 }
 
@@ -10,20 +10,12 @@ void Sniper::Update(const float & dt)
 {
 	UpdateReactionTimer(dt);
 	UpdateWeapon(dt);
-
-	if (_timer >= _timeByStep)
-	{
-		SetRotateDegrees(GetRotateDegrees() + _step);
-		_timer = 0;
-	}
-	else
-	{
-		_timer += dt;
-	}
-	SetActorPosition(GetNextPosition());
+	MoveBy(GetDegreesPerSecond() * dt);
 
 	if (IsReactionAllows() && _character && CheckVisibleZoneCollision(_character))
 	{
-		DoAttack(this, GetTargetPositionWithStormtrooperEffect(_character->GetRotateDegrees(), _character->GetRadius() + 250.0f));
+		// Снаряд полетит нацеленно в персонажа, но в зависимости от указанной меткости
+		// Снаряд полетит на 350 единиц дальше, чем радиус окружности, на которой находится персонаж
+		DoAttack(this, GetTargetPositionWithStormtrooperEffect(_character->GetRotateDegrees(), _character->GetRadius() + 350.0f));
 	}
 }

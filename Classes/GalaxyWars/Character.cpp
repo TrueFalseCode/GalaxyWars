@@ -3,11 +3,12 @@
 #include "Character.h"
 
 Character::Character(const float& health,
-			   const string& filename,
-			   const Point& globalCenter,
-			   const float& radius,
-			   const float& startRotate) : Actor(globalCenter, health, filename),
-										   CircleActor(globalCenter, radius, startRotate)
+					const string& filename,
+					const Point& globalCenter,
+					const float& radius,
+					const float& startRotate,
+					const float& degreesPerSecond) : Actor(globalCenter, health, filename),
+													CircleActor(globalCenter, radius, startRotate, degreesPerSecond)
 {
 	SetActorPosition(GetNextPosition());
 }
@@ -15,6 +16,7 @@ Character::Character(const float& health,
 void Character::Update(const float & dt)
 {
 	UpdateWeapon(dt);
+	MoveBy(GetDegreesPerSecond() * dt);
 }
 
 vector<shared_ptr<Actor>> Character::CheckAndProcessHits(vector<shared_ptr<Enemy>> enemies)
@@ -32,14 +34,14 @@ vector<shared_ptr<Actor>> Character::CheckAndProcessHits(vector<shared_ptr<Enemy
 	return hitsEnemies;
 }
 
-void Character::MoveByStep(const float & stepDergees)
+void Character::MoveBy(const float & stepDegrees)
 {
-	SetRotateDegrees(GetRotateDegrees() + stepDergees);
+	SetRotateDegrees(GetRotateDegrees() + stepDegrees);
 	SetActorPosition(GetNextPosition());
 }
 
-void Character::MoveTo(const float & newDergees)
+void Character::MoveTo(const float & stepDegrees)
 {
-	SetRotateDegrees(newDergees);
+	SetRotateDegrees(stepDegrees);
 	SetActorPosition(GetNextPosition());
 }

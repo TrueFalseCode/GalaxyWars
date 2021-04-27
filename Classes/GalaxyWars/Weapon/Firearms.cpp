@@ -5,7 +5,6 @@ Firearms::Firearms(const float & damage, const float& coolDown, const float& pro
 																												_projectileSpeed(projectileSpeed), 
 																												_spriteName(filename)
 {
-	int a = 1;
 }
 
 void Firearms::Update(const float & dt)

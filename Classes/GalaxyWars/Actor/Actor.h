@@ -87,8 +87,6 @@ protected:
 	// Функция позволяет смещать "тело"(объект класса Sphere) Actor'а
 	void SetBodyPosition(const Point & new_position);
 
-	float _timer;
-
 private:
 
 	Point GetSpritePosition() const;

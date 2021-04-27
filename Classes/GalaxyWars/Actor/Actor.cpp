@@ -58,7 +58,7 @@ float Sphere::GetDistance(const Point & A, const Point & B)
 
 Scene* Actor::_currentScene = nullptr;
 
-Actor::Actor(const Point& centerPosition, const float& health, const string& filename) : _maxHealth(health), _currentHealth(health), _timer(0.0f), _sprite(nullptr)
+Actor::Actor(const Point& centerPosition, const float& health, const string& filename) : _maxHealth(health), _currentHealth(health), _sprite(nullptr)
 {
 	_sprite = Sprite::create(filename);
 	SetActorPosition(centerPosition);

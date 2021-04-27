@@ -2,9 +2,13 @@
 
 #include "GameManager.h"
 
-GameManager::GameManager() : _bGameOver(true)
+#include "cocos2d.h"
+using cocos2d::Director;
+
+GameManager::GameManager() : _bGameOver(true), _characterDegreesPerSecond(0.0f)
 {
-	_text = make_shared<Actor>(Point(), 1.0f, "Start.png");
+	// TMP CODE
+	//_text = make_shared<Actor>(Point(), 1.0f, "Start.png");
 }
 
 void GameManager::Update(const float & dt)
@@ -14,15 +18,18 @@ void GameManager::Update(const float & dt)
 
 	if (_character)
 	{
+		// TMP CODE
 		if (_enemies.empty())
 		{
 			EndGame();
 
-			if (_text)
+			Director::getInstance()->replaceScene(Actor::GetCurrentScene());
+
+			/*if (_text)
 			{
 				_text->SetSpriteTexture("YouWin.png");
 				_text->SetActorPosition(_character->GetGlobalCenter());
-			}
+			}*/
 
 			return;
 		}
@@ -31,14 +38,17 @@ void GameManager::Update(const float & dt)
 		{
 			EndGame();
 
-			if (_text)
+			Director::getInstance()->replaceScene(Actor::GetCurrentScene());
+
+			/*if (_text)
 			{
 				_text->SetSpriteTexture("YouLose.png");
 				_text->SetActorPosition(_character->GetGlobalCenter());
-			}
+			}*/
 
 			return;
 		}
+
 		_character->CheckAndProcessHits(_enemies);
 		_character->Update(dt);
 
@@ -56,7 +66,7 @@ void GameManager::Update(const float & dt)
 				}
 				else
 				{
-					if (currEnemy->CheckAndProcessHits(_character))
+					if (currEnemy->CheckAndProcessHits(_character) && !_characterHealth.empty())
 					{
 						_characterHealth.erase(_characterHealth.begin());
 					}
@@ -82,11 +92,27 @@ void GameManager::CharacterAttack()
 	}
 }
 
-void GameManager::MoveCharacterByStep(const float & stepDegrees)
+void GameManager::MoveCharacterLeft()
 {
 	if (_character)
 	{
-		_character->MoveByStep(stepDegrees);
+		_character->SetDegreesPerSecond(-_characterDegreesPerSecond);
+	}
+}
+
+void GameManager::MoveCharacterRight()
+{
+	if (_character)
+	{
+		_character->SetDegreesPerSecond(_characterDegreesPerSecond);
+	}
+}
+
+void GameManager::MoveCharacterBy(const float & stepDegrees)
+{
+	if (_character)
+	{
+		_character->MoveBy(stepDegrees);
 	}
 }
 
@@ -95,6 +121,14 @@ void GameManager::MoveCharacterTo(const float& newDegrees)
 	if (_character)
 	{
 		_character->MoveTo(newDegrees);
+	}
+}
+
+void GameManager::StopCharacter()
+{
+	if (_character)
+	{
+		_character->SetDegreesPerSecond(0.0f);
 	}
 }
 
@@ -121,8 +155,8 @@ void GameManager::EndGame()
 
 	_bGameOver = true;
 
-	if(_text)
-		_text->SetSpriteTexture("Start.png");
+	//if(_text)
+		//_text->SetSpriteTexture("Start.png");
 }
 
 GameManager::~GameManager()

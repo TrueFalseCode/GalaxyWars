@@ -53,7 +53,12 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 
+	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
+	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
+
 private:
+	bool _rightArrowDown;
+	bool _leftArrowDown;
 	GameManager _gameManager;
 };
 

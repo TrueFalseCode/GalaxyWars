@@ -11,13 +11,16 @@ class CircleActor
 {
 public:
 
-	CircleActor(const Point& globalCenter, const float& radius, const float& startRotate);
+	CircleActor(const Point& globalCenter, const float& radius, const float& startRotate, const float& degreesPerSecond);
 
 	void SetRotateDegrees(const float& new_value);
 	float GetRotateDegrees() const;
 
 	Point GetGlobalCenter() const;
 	float GetRadius() const;
+
+	void SetDegreesPerSecond(const float& newDegrees);
+	float GetDegreesPerSecond() const;
 
 	// Функция возвращает точку на оси XY, которая повернута на угол rotateDegrees 
 	// в окружности с заданным радиусом (центр окружности при этом хранится в текущем объекте)
@@ -39,4 +42,7 @@ private:
 	Point _globalCenter;
 	float _globalRadius;
 	float _rotateDegrees;
+
+	// Скорость передвижения (градусов в секунду)
+	float _degreesPerSecond;
 };

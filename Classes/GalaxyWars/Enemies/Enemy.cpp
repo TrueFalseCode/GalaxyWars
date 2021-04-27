@@ -9,43 +9,28 @@ Enemy::Enemy(const float& health,
 			 const Point& globalCenter, 
 			 const float& radius, 
 			 const float& startRotate,
-			 const float& RPS, 
-			 const float& step) : Actor(globalCenter, health, filename),
-								  CircleActor(globalCenter, radius, startRotate),
-								  _speed(RPS), 
-								  _step(step),
-								  _visibleZone(0.0f),
-								  _bReactionAllow(false),
-								  _reactionDelay(-1.0f),
-								  _reactionDelayTimer(0.0f),
-								  _generator(std::random_device().operator()()),
-								  _stormtrooperEffect(0.0f)
+			 const float& degreesPerSecond) : Actor(globalCenter, health, filename),
+											  CircleActor(globalCenter, radius, startRotate, degreesPerSecond),
+											  _visibleZone(0.0f),
+											  _bReactionAllow(false),
+											  _reactionDelay(-1.0f),
+											  _reactionDelayTimer(0.0f),
+											  _generator(std::random_device().operator()()),
+											  _stormtrooperEffect(0.0f)
 {
-	_timeByStep = step / (RPS * 360);
-
-	if (_timeByStep < 0)
-		_timeByStep *= -1;
 }
 
 void Enemy::Update(const float& dt)
 {
 	UpdateReactionTimer(dt);
 	UpdateWeapon(dt);
-
-	if (_timer >= _timeByStep)
-	{
-		SetRotateDegrees(GetRotateDegrees() + _step);
-		_timer = 0;
-	}
-	else
-	{
-		_timer += dt;
-	}
-	SetActorPosition(GetNextPosition());
+	MoveBy(GetDegreesPerSecond() * dt);
 
 	if (IsReactionAllows() && _character)
 	{
-		DoAttack(this, GetTargetPositionWithStormtrooperEffect(GetRotateDegrees(), _character->GetRadius() + 250.0f));
+		// В данном случае, целью указано текущее положение этого врага, чтобы он стрелял просто вперед.
+		// Снаряд полетит на 350 единиц дальше, чем радиус окружности, на которой находится персонаж
+		DoAttack(this, GetTargetPositionWithStormtrooperEffect(GetRotateDegrees(), _character->GetRadius() + 350.0f));
 	}	
 }
 
@@ -81,6 +66,18 @@ void Enemy::SetStormtrooperEffect(const float & val)
 	{
 		_stormtrooperEffect = 1.0f;
 	}
+}
+
+void Enemy::MoveBy(const float & stepDegrees)
+{
+	SetRotateDegrees(GetRotateDegrees() + stepDegrees);
+	SetActorPosition(GetNextPosition());
+}
+
+void Enemy::MoveTo(const float & stepDegrees)
+{
+	SetRotateDegrees(stepDegrees);
+	SetActorPosition(GetNextPosition());
 }
 
 bool Enemy::CheckVisibleZoneCollision(shared_ptr<const CircleActor> circleActor)

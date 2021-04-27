@@ -15,7 +15,7 @@ class Character : public Actor, public CircleActor, public AttackActor
 {
 public:
 
-	Character(const float& health, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate);
+	Character(const float& health, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate, const float& degreesPerSecond);
 
 	virtual	void Update(const float& dt) override;
 
@@ -25,8 +25,8 @@ public:
 
 	// Функция перемещает персонажа на заданное 
 	// количество градусов относительно его текущего положения.
-	void MoveByStep(const float& stepDergees);
+	void MoveBy(const float& stepDegrees);
 
 	// Функция перемещает персонажа на заданный угол.
-	void MoveTo(const float& newDergees);
+	void MoveTo(const float& newDegrees);
 };

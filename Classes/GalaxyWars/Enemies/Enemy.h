@@ -19,7 +19,7 @@ class Enemy : public Actor, public CircleActor, public AttackActor
 {
 public:
 
-	Enemy(const float& health, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate, const float& RPS, const float& step);
+	Enemy(const float& health, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate, const float& degreesPerSecond);
 
 	virtual	void Update(const float& dt) override;
 
@@ -35,6 +35,13 @@ public:
 	// Функция устанавливает значение "Эффекта штурмовика",
 	// который позволяет регулировать точность попадания врага
 	void SetStormtrooperEffect(const float& val);
+
+	// Функция перемещает персонажа на заданное 
+	// количество градусов относительно его текущего положения.
+	void MoveBy(const float& stepDegrees);
+
+	// Функция перемещает персонажа на заданный угол.
+	void MoveTo(const float& newDegrees);
 
 protected:
 
@@ -53,9 +60,6 @@ protected:
 	Point GetTargetPositionWithStormtrooperEffect(const float& rotateDegrees, const float& radius);
 
 	shared_ptr<const CircleActor> _character;
-	float _speed;
-	float _step;
-	float _timeByStep;
 
 	// Зона видимости отражает сумму количества градусов справа и слева от текущей позиции врага
 	float _visibleZone;
@@ -72,5 +76,7 @@ private:
 	// с помощью которой регулируется точность попадания врага в цель.
 	// Величина устанавливается с помощью функции SetStormtrooperEffect(), 
 	// которая не позволяет переменной выходить за пределы диапазона 0.0 - 1.0
+	// *
+	// NOTE: Имеется в виду точность попадания в зоне видимости врага.
 	float _stormtrooperEffect;
 };

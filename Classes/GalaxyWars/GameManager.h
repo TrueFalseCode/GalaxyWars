@@ -26,7 +26,7 @@ public:
 
 	// Функция предназначена для создания главного персонажа игры по заданным параметрам
 	template<typename TCharacter>
-	void CreateCharacter(const float& health, shared_ptr<Weapon> weapon, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate);
+	void CreateCharacter(const float& health, shared_ptr<Weapon> weapon, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate, const float& degreesPerSecond);
 
 	// Функция предназначена для создания набора врагов по заданным параметрам
 	// Примечание: 
@@ -34,7 +34,7 @@ public:
 	// * и (amount - weapons.Size()) врагов без оружия.
 	// * Если же Если amount < weapons.Size(), то будет создано weapons.Size() врагов с оружием
 	template<typename TEnemy>
-	void CreateEnemies(const unsigned int& amount, const float& health, const vector<shared_ptr<Weapon>>& weapons, const float& startRotate, const float& offset, const string& filename, const Point& globalCenter, const float& radius, const float& RPS, const float& step, const float& visibleZone, const float& stormtrooperEffect);
+	void CreateEnemies(const unsigned int& amount, const float& health, const vector<shared_ptr<Weapon>>& weapons, const float& startRotate, const float& offset, const string& filename, const Point& globalCenter, const float& radius, const float& degreesPerSecond, const float& visibleZone, const float& stormtrooperEffect);
 
 	void Update(const float& dt);
 
@@ -45,8 +45,11 @@ public:
 	// Функция инициирует атаку главного персонажа
 	void CharacterAttack();
 
-	void MoveCharacterByStep(const float& stepDegrees);
+	void MoveCharacterLeft();
+	void MoveCharacterRight();
+	void MoveCharacterBy(const float& stepDegrees);
 	void MoveCharacterTo(const float& newDegrees);
+	void StopCharacter();
 
 	bool IsGameOver();
 	void StartGame();
@@ -65,6 +68,7 @@ private:
 	shared_ptr<Actor> _text;
 
 	shared_ptr<Character> _character;
+	float _characterDegreesPerSecond;
 
 	// Список, в котором хранятся "жизни" персонажа,
 	// которые по очереди изчезают, когда он получает урон.
@@ -75,9 +79,11 @@ private:
 };
 
 template<typename TCharacter>
-void GameManager::CreateCharacter(const float& health, shared_ptr<Weapon> weapon, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate)
+void GameManager::CreateCharacter(const float& health, shared_ptr<Weapon> weapon, const string& filename, const Point& globalCenter, const float& radius, const float& startRotate, const float& degreesPerSecond)
 {
-	_character = make_shared<TCharacter>(health, filename, globalCenter, radius, startRotate);
+	_character = make_shared<TCharacter>(health, filename, globalCenter, radius, startRotate, 0.0f);
+
+	_characterDegreesPerSecond = degreesPerSecond;
 
 	if (_character && weapon)
 	{
@@ -96,14 +102,15 @@ void GameManager::CreateCharacter(const float& health, shared_ptr<Weapon> weapon
 }
 
 template<typename TEnemy>
-void GameManager::CreateEnemies(const unsigned int& amount, const float& health, const vector<shared_ptr<Weapon>>& weapons, const float& startRotate, const float& offset, const string& filename, const Point& globalCenter, const float& radius, const float& RPS, const float& step, const float& visibleZone, const float& stormtrooperEffect)
+void GameManager::CreateEnemies(const unsigned int& amount, const float& health, const vector<shared_ptr<Weapon>>& weapons, const float& startRotate, const float& offset, const string& filename, const Point& globalCenter, const float& radius, const float& degreesPerSecond, const float& visibleZone, const float& stormtrooperEffect)
 {
 	unsigned int remainingAmount = amount;
 	float offsetSum = startRotate;
 
+	// Создание врагов с оружием
 	for (auto wpn : weapons)
 	{
-		shared_ptr<TEnemy> newEnemy = make_shared<TEnemy>(health, filename, globalCenter, radius, offsetSum, RPS, step);
+		shared_ptr<TEnemy> newEnemy = make_shared<TEnemy>(health, filename, globalCenter, radius, offsetSum, degreesPerSecond);
 		if (newEnemy)
 		{
 			FillEnemy(newEnemy, wpn, visibleZone, stormtrooperEffect);
@@ -113,9 +120,10 @@ void GameManager::CreateEnemies(const unsigned int& amount, const float& health,
 		--remainingAmount;
 	}
 
+	// Если оружия было меньше, чем врагов, создаются враги без оружия
 	for (unsigned int i = 0; i < remainingAmount; ++i)
 	{
-		shared_ptr<TEnemy> newEnemy = make_shared<TEnemy>(health, filename, globalCenter, radius, offsetSum, RPS, step);
+		shared_ptr<TEnemy> newEnemy = make_shared<TEnemy>(health, filename, globalCenter, radius, offsetSum, degreesPerSecond);
 		if (newEnemy)
 		{
 			FillEnemy(newEnemy, shared_ptr<Weapon>(nullptr), visibleZone, stormtrooperEffect);
