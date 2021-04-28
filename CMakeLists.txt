@@ -57,11 +57,37 @@ endif()
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
-     Classes/HelloWorldScene.cpp
+     Classes/GameField.cpp
+	 Classes/GameOver.cpp
+	 Classes/MainMenu.cpp
+	 Classes/PauseMenu.cpp
+	 Classes/GalaxyWars/Character.cpp
+	 Classes/GalaxyWars/GameManager.cpp
+	 Classes/GalaxyWars/Actor/Actor.cpp
+	 Classes/GalaxyWars/Actor/AttackActor.cpp
+	 Classes/GalaxyWars/Actor/CircleActor.cpp
+	 Classes/GalaxyWars/Enemies/Enemy.cpp
+	 Classes/GalaxyWars/Enemies/Sniper.cpp
+	 Classes/GalaxyWars/Weapon/Firearms.cpp
+	 Classes/GalaxyWars/Weapon/Projectile.cpp
+	 Classes/GalaxyWars/Weapon/Weapon.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
-     Classes/HelloWorldScene.h
+     Classes/GameField.h
+	 Classes/GameOver.h
+	 Classes/MainMenu.h
+	 Classes/PauseMenu.h
+	 Classes/GalaxyWars/Character.h
+	 Classes/GalaxyWars/GameManager.h
+	 Classes/GalaxyWars/Actor/Actor.h
+	 Classes/GalaxyWars/Actor/AttackActor.h
+	 Classes/GalaxyWars/Actor/CircleActor.h
+	 Classes/GalaxyWars/Enemies/Enemy.h
+	 Classes/GalaxyWars/Enemies/Sniper.h
+	 Classes/GalaxyWars/Weapon/Firearms.h
+	 Classes/GalaxyWars/Weapon/Projectile.h
+	 Classes/GalaxyWars/Weapon/Weapon.h
      )
 
 if(ANDROID)
